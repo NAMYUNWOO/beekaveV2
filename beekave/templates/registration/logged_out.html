@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load self_defined_filters %}
+{% block content %}
+<main role="main">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Log out</h1>
+        </div>
+    </div>
+
+    <div class="container" align="center">
+        <div class="row">
+            <div class="col-md-5 col-centered">
+                <h2 style="text-align: center;">로그아웃 되었습니다</h2>
+
+                <h5 align="center" style="color:blue; margin-top:100px;"><a href="{% url 'login' %}">로그인 페이지로 이동</a></h5>
+
+            </div>
+        </div>
+    </div>
+</main>
+<br>
+<br>
+{% endblock %}

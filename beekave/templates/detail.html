@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load self_defined_filters %}
+{% block content %}
+<main role="main">
+    <div class="row" style="background-color:black;padding-top: 0px;">
+        <div class="col-xs-12 col-sm-3">
+            <img class="img-fluid nopadding" src ="{{detail.thumbnail}}">
+        </div>
+        <div class="col-xs-12 col-sm-9">
+            <div class="container" style="margin-top:30px; margin-bottom:20px;">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="h1" style="color:white;">{{detail.title}}</div>
+                        <div class="h4" style="color:white;">{{detail.opendate}}</div>
+                        <div class="panel panel-default" style="background-color:black; border-color:transparent;">
+                            <div class="panel-score">
+                                {% if detail.score > 6 %}
+                                <div class="beescore_w large no_tbd movie positive">{{detail.score}}</div>
+                                {% elif detail.score > 4 %}
+                                <div class="beescore_w large no_tbd movie mixed">{{detail.score}}</div>
+                                {% else %}
+                                <div class="beescore_w large no_tbd movie negative">{{detail.score}}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="panel panel-default" style="background-color:black; border-color:transparent;">
+                            <div class="panel-body">
+                                <div class="form-group d-none d-md-block">
+                                    <textarea id="reviewText" class="form-control" name="message" placeholder="평가를 남겨주세요" rows="5" style="margin-bottom:10px;"></textarea>
+                                    <input id="input-1" name="input-1" value="5" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="md">
+                                    {% if user.is_active %}
+                                    <input id="postReview" class="btn btn-outline-warning btn-lg pull-right" type="submit" value="리뷰남기기"/>
+                                    {% else %}
+                                    <a class="btn btn-outline-warning btn-lg pull-right" href="{% url 'login' %}?next={{request.path}}" style="color:warning;">로그인하고 리뷰남기기</a>
+                                    {% endif %}
+
+                                </div>
+
+                                <div class="form-group d-block d-sm-none">
+                                    <textarea id="reviewTextXS" class="form-control" onkeydown="resize(this)" onkeyup="resize(this)" name="message" placeholder="평가를 남겨주세요" rows="1" style="margin-bottom:10px;"></textarea>
+                                    <input id="input-1XS" name="input-1" value="5" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="xs">
+                                    {% if user.is_active %}
+                                    <input id="postReviewXS" class="btn btn-outline-warning pull-right" type="submit"  value="리뷰남기기"/>
+                                    {% else %}
+                                    <a class="btn btn-outline-warning pull-right" href="{% url 'login' %}" style="color:warning;">로그인하고 리뷰남기기</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="col-sm-1 col-xs-12"></div>
+        <div class="col-sm-10 col-xs-12">
+            <br>
+            <ul class="nav nav-tabs" id="myTab" role="tablist" >
+                  <li class="nav-item" style="color:black;">
+                    <a class="nav-link active" style="color:black;" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">리뷰</a>
+                  </li>
+                  <li class="nav-item" style="color:black;">
+                    <a class="nav-link" style="color:black;" id="profile-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="profile" aria-selected="false">주요정보</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" style="color:black;" id="contact-tab" data-toggle="tab" href="#media" role="tab" aria-controls="contact" aria-selected="false">사진/동영상</a>
+                  </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="home">
+                    <br>
+                    <br>
+                    <iframe width=100% height=100% src="{{ request.get_full_path }}date/p1" frameborder='0' scrolling='no'  style="display:block; width:100%; height: 100%;" onload="resizeIframe(this)"></iframe>
+                    <script>function resizeIframe(obj) {obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';}</script>
+
+                </div>
+                <div class="tab-pane" id="summary">
+                    <br><br>
+                    <h3>주요정보</h3>
+                    <p>{{detail.summary|safe}}</p>
+                </div>
+
+                <div class="tab-pane" id="media">
+                    <br><br>
+                    <h3>탭 2</h3>
+                    Donec rhoncus vehicula quam, nec dictum nibh ultricies ac. Proin venenatis dolor et mi facilisis pharetra. Suspendisse tincidunt at sapien quis posuere. Duis tempus commodo mi eget aliquam. Pellentesque eget convallis enim. Mauris tincidunt est non feugiat rhoncus. Quisque eros nisl, blandit egestas venenatis sit amet, congue a urna. Duis ante elit, ultrices congue libero a, tristique pellentesque orci. Praesent sed massa vitae tortor placerat porttitor. Donec sit amet dolor purus. Cras felis risus, molestie non rhoncus nec, dignissim a purus. Fusce ultricies pretium lacus, sed tristique massa vehicula sit amet.</div>
+            </div>
+        </div>
+        <div class="col-sm-1 col-xs-12"></div>
+    </div>
+
+    <br>
+
+    <script>
+function resize(obj)
+{obj.style.height = "1px";obj.style.height = (12+obj.scrollHeight)+"px";}
+$("#postReview").click(function(){
+  var reviewText = $("#reviewText").val();
+  var reviewScore = $("#input-1").val();
+  if (reviewText.length > 10){
+    $.ajax({
+      type: "POST", // 데이터를 전송하는 방법을 지정
+      url: "{%  url 'postReview' %}", // 통신할 url을 지정
+      data: {"reviewText": reviewText, "reviewScore":reviewScore,"redirectUrl":"{{ request.get_full_path }}",'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정, 없으면 알아서 판단
+      // 서버측에서 전송한 Response 데이터 형식 (json)
+      // {'likes_count': post.like_count, 'message': message }
+      success: function(response){
+        $(location).attr('href', response.url)
+      },
+    });
+  }else{
+    alert("10자 이상 리뷰를 남겨주세요.");
+  }
+
+})
+
+$("#postReviewXS").click(function(){
+  var reviewText = $("#reviewTextXS").val();
+  var reviewScore = $("#input-1XS").val();
+  if (reviewText.length > 10){
+    $.ajax({ //
+      type: "POST", // 데이터를 전송하는 방법을 지정
+      url: "{%  url 'postReview' %}", // 통신할 url을 지정
+      data: {"reviewText": reviewText, "reviewScore":reviewScore,"redirectUrl":"{{ request.get_full_path }}",'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정, 없으면 알아서 판단
+      // 서버측에서 전송한 Response 데이터 형식 (json)
+      // {'likes_count': post.like_count, 'message': message }
+      success: function(response){
+        $(location).attr('href', response.url)
+      },
+    });
+  }else{
+    alert("10자 이상 리뷰를 남겨주세요.");
+  }
+})
+$(function(){
+  $('.normal').autosize();
+  $('.animated').autosize({append: "\n"});
+});
+      </script>
+</main>
+{% endblock %}

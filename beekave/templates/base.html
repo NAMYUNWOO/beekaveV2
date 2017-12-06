@@ -1,0 +1,103 @@
+<!doctype html>
+{% load static from staticfiles %}
+{% load self_defined_filters %}
+{% load widget_tweaks %}
+<head>
+  <title>BeeKave - Best Movie Ranking Service</title>
+
+  <meta name="description" content="Beekave, the best movie ranking service">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="application-name" content="Beekave">
+  <meta name="msapplication-TileColor" content="#000000">
+     <link rel="canonical" href="http://www.beekave.com" />
+  <link rel="stylesheet" href="{% static 'myCSS.css' %}" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static '/starRating/css/star-rating.css' %}" media="all" type="text/css">
+</head>
+
+<style>
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-top: 50px;
+  margin-bottom: 120px;
+}
+</style>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/"><img src="{% static  '/images/mlogo.png' %}" style="width:100px" alt="beekave logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="collapsingNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/recent">최신랭킹</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/legend">역대랭킹</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_active %}
+            <li><a class="nav-link">Welcome, <strong>{% firstof user.get_short_name user.get_username %}</strong> </a></li>
+            <li><a class="nav-link" href="{% url 'password_change' %}">Change Password</a> </li>
+            <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+
+            {% else %}
+            <li><a class="nav-link">Welcome, Anonymous </a></li>
+            <li><a class="nav-link" href="{% url 'login' %}">Login</a> </li>
+            <li><a class="nav-link right" href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <form class="form-inline my-2 my-lg-0" type="get" action="/">
+                 <input class="form-control mr-sm-2" id ="search_box" name="search_box" type="text" placeholder="영화검색" aria-label="Search">
+                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </ul>
+    </div>
+</nav>
+<body>
+{% block content %}
+{% endblock %}
+  <footer class="footer bottom_footer {% if request.resolver_match.url_name|currentUrl:'review' %}invisible{% endif %}">
+      <div class="container">
+    <div class="site_links upper">
+      <a href="/recent">
+        <span>최신랭킹</span>
+      </a>
+      <a href="/legend">
+        <span>역대랭킹</span>
+      </a>
+    </div>
+
+    <div class="pad_top1 pad_btm1">
+      <div class="social_round">
+        <a href="http://www.facebook.com/beekave" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
+        <a href="http://twitter.com/beekave" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
+      </div>
+    </div>
+
+    <div class="about_cbs">
+      <div id="footer_about_links">
+        <span class="link_divider">|</span><a href="/faq">FAQ</a>
+        <span class="link_divider">|</span><a href="/aboutus">About beekave</a>
+        <span class="link_divider">|</span><a href="/contactus">Contact</a>
+      </div>
+      <div id="footer_rights" class="pad_btm2">
+        &copy; 2017 Beekave Inc. All rights reserved.
+      </div>
+    </div>
+      </div>
+  </footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static '/starRating/js/star-rating.js' %}"></script>
+
+</body>
+</html>

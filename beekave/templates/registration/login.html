@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load self_defined_filters %}
+{% block content %}
+<main role="main">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Login Page</h1>
+        </div>
+    </div>
+
+    <div class="container" align="center">
+        <div class="row">
+            <div class="col-md-5 col-centered">
+                <h2 style="text-align: center;">Welcome</h2>
+                <br>
+                <form action="." method="post">{% csrf_token %}
+
+                    {% if form.errors %}
+                    <p class="errornote" style="border-radius:4px">비밀번호가 틀리거나 없는 ID입니다.</p>
+                    {% endif %}
+
+
+
+                    <fieldset class="aligned" style="border-radius:8px">
+
+                        <div class="form-row">
+                            <input class="form-control" id="{{ form.username.id_for_label }}" placeholder="사용자 ID" name="{{ form.username.html_name }}" type="text" />
+                        </div>
+
+                        <div class="form-row">
+                            <input class="form-control" id="{{ form.password.id_for_label }}" placeholder="비밀번호" name="{{ form.password.html_name }}" type="password" />
+                        </div>
+
+                    </fieldset>
+
+                    <div style="margin-top:20px;">
+                        <input class="btn btn-primary btn-lg btn-block" type="submit" style="margin-top: 5px;" value="로그인">
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </div>
+
+                    <script type="text/javascript">document.getElementById('id_username').focus();</script>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<br>
+<br>
+{% endblock %}

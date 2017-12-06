@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load self_defined_filters %}
+{% block content %}
+
+<main role="main">
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Register</h1>
+        </div>
+    </div>
+
+    <div class="container" align="center">
+        <div class="row">
+            <div class="col-md-4 col-xs-8 col-centered" id="content">
+                <h1 style="text-align: center;">환영합니다</h1>
+                <br>
+                <h5>가입정보를 입력해주세요</h5>
+                <br>
+                <form method="post" action="."> {% csrf_token %}
+
+                    {% if form.errors %}
+                    <br>
+                    <p class="errornote" style="border-radius:4px">정확한 정보를 기입해 주세요</p>
+                    {% endif %}
+
+
+
+                    <fieldset class="aligned" style="border-radius:8px">
+                        <div class="form-row">
+                            <input class="form-control" id="{{ form.username.id_for_label }}" placeholder="사용자 ID" name="{{ form.username.html_name }}" type="text" />
+                            {% if form.username.errors %}
+                            <br>
+                            <p>{{ form.username.errors|striptags }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="form-row">
+                            <input class="form-control" id="{{ form.email.id_for_label }}" placeholder="이메일 주소" name="{{ form.email.html_name }}" type="email" />
+                            {% if form.email.errors %}
+                            <br>
+                            <p>{{ form.email.errors|striptags }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="form-row">
+                            <input class="form-control" id="{{ form.password1.id_for_label }}" placeholder="비밀번호" name="{{ form.password1.html_name }}" type="password" />
+                        </div>
+
+                        <div class="form-row">
+                            <input class="form-control" id="{{ form.password2.id_for_label }}" placeholder="비밀번호 재확인" name="{{ form.password2.html_name }}" type="password" />
+                            {% if form.password2.errors %}
+                            <br>
+                            <p>{{ form.password2.errors|striptags }}</p>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+
+                    <div style="margin-top:20px; margin-bottom:20px;" >
+                        <input class="btn btn-primary btn-lg btn-block" type="submit" style="margin-top: 5px;" value="회원가입">
+                    </div>
+
+                    <script type="text/javascript">document.getElementById("id_username").focus();</script>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<br><br>
+{% endblock %}

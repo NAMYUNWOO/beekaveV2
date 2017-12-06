@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load self_defined_filters %}
+{% block content %}
+<script type="text/javascript">
+</script>
+<main role="main">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8">
+            {% with request.get_full_path as fullpath %}
+            <span><a class="btn {{ fullpath|order_is:'recommend' }} my-2 my-sm-0" href="{{ fullpath|parentsUrls}}recommend/p1">호감순</a>&nbsp
+                <a class="btn {{ fullpath|order_is:'date' }}  my-2 my-sm-0" href="{{ fullpath|parentsUrls}}date/p1">최신순</a>&nbsp
+                <a class="btn {{ fullpath|order_is:'score' }} my-2 my-sm-0" href="{{ fullpath|parentsUrls}}score/p1">평점 <span class="fa fa-arrow-up" aria-hidden="true"></span></a>&nbsp
+                <a class="btn {{ fullpath|order_is:'-score' }} my-2 my-sm-0" href="{{ fullpath|parentsUrls}}-score/p1">평점 <span class="fa fa-arrow-down" aria-hidden="true"></span></a>&nbsp
+          </span>&nbsp
+            {%endwith %}
+        </div>
+        <div class="col-xs-12 col-sm-4">
+
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" id="searChBarTxt" class="form-control input-sm"  placeholder="리뷰검색" />
+                    <span class="input-group-btn">
+                        <button onclick="getSearchWord()" class="btn btn-info btn-lg" type="button">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br><br>
+    {%if reviewList %}
+    {% for review in reviewList %}
+    <div class="rating-block">
+        <div class="row" style="margin:10px;">
+            <div class="col-xs-12">
+                <div>
+                  <span class="bs-glyphicons-list">
+                    {% for i in review.score|iterInt %}
+                      <span class="fa fa-star" aria-hidden="true"></span>
+                    {% endfor %}
+                    {% for i in review.score|iterFloat %}
+                      <span class="fa fa-star-half" aria-hidden="true"></span>
+                    {% endfor %}
+                  </span>
+                    <span class="bold">&nbsp {{ review.score|getDecScore }}</span>
+                </div>
+                <div class="review-block-description">{{review.comment}}</div>
+                <div class="col-xs-12 nopadding" align="left">
+                    <div class="review-block-userInfo " ><a href="#">{{review.reviewUser}}</a><span> | </span><span>{{review.date|date:"Y-m-d"}}</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-end" style="margin:10px;">
+            <div class="col-xs-4">
+              <span><input type="button" class="like"  name="{{ review.pk }}" value="공감">&nbsp<span style="color:e60000;" id="likeCount-{{ review.pk }}" >{{review.recommend}}</span>
+              <input type="button" class="dislike"  name="{{ review.pk }}" value="비공감">&nbsp<span style="color:0033cc;" id="dislikeCount-{{ review.pk }}">{{review.nonRecommend}}</span>
+              </span>&nbsp;
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h3>리뷰가 없습니다!</h3>
+    {% endif %}
+    <br><br>
+    <div class="row justify-content-center">
+    <div class="col-xs-4" style="margin-bottom: 120px;">
+        <ul class="pagination">
+            <li><a class="btn btn-outline-dark my-2 my-sm-0" onclick="moveToReviewTop()" href="{{ request.get_full_path|decrPage }}">❮ 이전 페이지</a></li>
+            &nbsp;&nbsp;&nbsp;
+            <li><a class="btn btn-outline-dark my-2 my-sm-0" onclick="moveToReviewTop()" href="{{ request.get_full_path|incrPage }}">다음 페이지 ❯</a></li>
+        </ul>
+    </div>
+        </div>
+    <script type="text/javascript">
+$(".navbar-expand-md").hide()
+function getSearchWord(){
+    var txt = document.getElementById("searChBarTxt").value;
+    if (txt == ""){
+      alert("검색어를 입력해주세요")
+      return
+    }
+    txt = txt.replace(/[^a-zA-Z가-힣0-9]/gi,"_");
+    var path = window.location.pathname.split('/')
+    var pathParent = path.slice(0,2)
+    pathParent.push(path[2].split('&')[0]+'&'+txt)
+    pathParent.push("p1")
+    location.href=pathParent.join('/')
+}
+$(".like").click(function(){
+  var pk = $(this).attr('name')
+  $.ajax({ // .like 버튼을 클릭하면 <새로고침> 없이 ajax로 서버와 통신하겠다.
+    type: "POST", // 데이터를 전송하는 방법을 지정
+    url: "{%  url 'review_like' %}", // 통신할 url을 지정
+    data: {'pk': pk, "type":'m','csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+    dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정, 없으면 알아서 판단
+    // 서버측에서 전송한 Response 데이터 형식 (json)
+    // {'likes_count': post.like_count, 'message': message }
+    success: function(response){ // 통신 성공시 - 동적으로 좋아요 갯수 변경, 유저 목록 변경
+      $("#likeCount-"+pk).html(response.like_count);
+      if (response.message != "success"){
+        alert(response.message)
+      }
+    },
+  });
+})
+$(".dislike").click(function(){
+  var pk = $(this).attr('name')
+  $.ajax({ // .unlike 버튼을 클릭하면 <새로고침> 없이 ajax로 서버와 통신하겠다.
+    type: "POST", // 데이터를 전송하는 방법을 지정
+    url: "{%  url 'review_dislike' %}", // 통신할 url을 지정
+    data: {'pk': pk, "type":'m','csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+    dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정, 없으면 알아서 판단
+    // 서버측에서 전송한 Response 데이터 형식 (json)
+    // {'likes_count': post.like_count, 'message': message }
+    success: function(response){ // 통신 성공시 - 동적으로 좋아요 갯수 변경, 유저 목록 변경
+      $("#dislikeCount-"+pk).html(response.dislike_count);
+      if (response.message != "success"){
+        alert(response.message)
+      }
+    },
+  });
+})
+function moveToReviewTop(){
+  document.getElementById("searChBarTxt").scrollIntoView();
+}
+</script>
+</main>
+<br><br>
+{% endblock %}
