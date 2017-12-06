@@ -5,7 +5,32 @@
 <main role="main">
     <div class="row" style="background-color:black;padding-top: 0px;">
         <div class="col-xs-12 col-sm-3">
-            <img class="img-fluid nopadding" src ="{{detail.thumbnail}}">
+            <div id="carouselExampleControls" class="col-xs-12 carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="img-fluid nopadding" src="{{detail.thumbnail}}" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="img-fluid nopadding" src="{{detail.thumbnail}}" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="img-fluid nopadding" src="{{detail.thumbnail}}" alt="Third slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <div class="col-xs-3">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/v7MGUNV8MxU" allowfullscreen></iframe> <!--left going to be editted {{ youtubeUrl }}  -->
+                </div>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-9">
             <div class="container" style="margin-top:30px; margin-bottom:20px;">
@@ -26,27 +51,38 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6">
-                        <div class="panel panel-default" style="background-color:black; border-color:transparent;">
-                            <div class="panel-body">
-                                <div class="form-group d-none d-md-block">
-                                    <textarea id="reviewText" class="form-control" name="message" placeholder="평가를 남겨주세요" rows="5" style="margin-bottom:10px;"></textarea>
-                                    <input id="input-1" name="input-1" value="5" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="md">
-                                    {% if user.is_active %}
-                                    <input id="postReview" class="btn btn-outline-warning btn-lg pull-right" type="submit" value="리뷰남기기"/>
-                                    {% else %}
-                                    <a class="btn btn-outline-warning btn-lg pull-right" href="{% url 'login' %}?next={{request.path}}" style="color:warning;">로그인하고 리뷰남기기</a>
-                                    {% endif %}
-
-                                </div>
-
-                                <div class="form-group d-block d-sm-none">
-                                    <textarea id="reviewTextXS" class="form-control" onkeydown="resize(this)" onkeyup="resize(this)" name="message" placeholder="평가를 남겨주세요" rows="1" style="margin-bottom:10px;"></textarea>
-                                    <input id="input-1XS" name="input-1" value="5" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="xs">
-                                    {% if user.is_active %}
-                                    <input id="postReviewXS" class="btn btn-outline-warning pull-right" type="submit"  value="리뷰남기기"/>
-                                    {% else %}
-                                    <a class="btn btn-outline-warning pull-right" href="{% url 'login' %}" style="color:warning;">로그인하고 리뷰남기기</a>
-                                    {% endif %}
+                        <div class="col-xs-12">
+                            <h1 style="color:white;">주요 정보1</h1>
+                            <h1 style="color:white;">주요 정보2</h1>
+                            <h1 style="color:white;">주요 정보3</h1>
+                            <h1 style="color:white;">주요 정보4</h1>
+                            <h1 style="color:white;">주요 정보5</h1>
+                            <h1 style="color:white;">주요 정보6</h1>
+                            <h1 style="color:white;">주요 정보7</h1>
+                            <h1 style="color:white;">주요 정보n</h1>
+                        </div>
+                        <br><br>
+                        <div class="col-xs-12">
+                            <div class="panel panel-default" style="background-color:black; border-color:transparent;">
+                                <div class="panel-body">
+                                    <div class="form-group d-none d-md-block">
+                                        <textarea id="reviewText" class="form-control" name="message" placeholder="평가를 남겨주세요" rows="3" style="margin-bottom:5px;"></textarea>
+                                        <input id="input-1" name="input-1" value="5" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="md">
+                                        {% if user.is_active %}
+                                        <input id="postReview" class="btn btn-outline-warning btn-lg pull-right" type="submit" value="리뷰남기기"/>
+                                        {% else %}
+                                        <a class="btn btn-outline-warning btn-lg pull-right" href="{% url 'login' %}?next={{request.path}}" style="color:warning;">로그인하고 리뷰남기기</a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group d-block d-sm-none">
+                                        <textarea id="reviewTextXS" class="form-control" onkeydown="resize(this)" onkeyup="resize(this)" name="message" placeholder="평가를 남겨주세요" rows="1" style="margin-bottom:10px;"></textarea>
+                                        <input id="input-1XS" name="input-1" value="5" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="xs">
+                                        {% if user.is_active %}
+                                        <input id="postReviewXS" class="btn btn-outline-warning pull-right" type="submit"  value="리뷰남기기"/>
+                                        {% else %}
+                                        <a class="btn btn-outline-warning pull-right" href="{% url 'login' %}" style="color:warning;">로그인하고 리뷰남기기</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -60,44 +96,15 @@
     <div class="container">
         <div class="col-sm-1 col-xs-12"></div>
         <div class="col-sm-10 col-xs-12">
-            <br>
-            <ul class="nav nav-tabs" id="myTab" role="tablist" >
-                  <li class="nav-item" style="color:black;">
-                    <a class="nav-link active" style="color:black;" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">리뷰</a>
-                  </li>
-                  <li class="nav-item" style="color:black;">
-                    <a class="nav-link" style="color:black;" id="profile-tab" data-toggle="tab" href="#summary" role="tab" aria-controls="profile" aria-selected="false">주요정보</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" style="color:black;" id="contact-tab" data-toggle="tab" href="#media" role="tab" aria-controls="contact" aria-selected="false">사진/동영상</a>
-                  </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active" id="home">
-                    <br>
-                    <br>
-                    <iframe width=100% height=100% src="{{ request.get_full_path }}date/p1" frameborder='0' scrolling='no'  style="display:block; width:100%; height: 100%;" onload="resizeIframe(this)"></iframe>
-                    <script>function resizeIframe(obj) {obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';}</script>
-
-                </div>
-                <div class="tab-pane" id="summary">
-                    <br><br>
-                    <h3>주요정보</h3>
-                    <p>{{detail.summary|safe}}</p>
-                </div>
-
-                <div class="tab-pane" id="media">
-                    <br><br>
-                    <h3>탭 2</h3>
-                    Donec rhoncus vehicula quam, nec dictum nibh ultricies ac. Proin venenatis dolor et mi facilisis pharetra. Suspendisse tincidunt at sapien quis posuere. Duis tempus commodo mi eget aliquam. Pellentesque eget convallis enim. Mauris tincidunt est non feugiat rhoncus. Quisque eros nisl, blandit egestas venenatis sit amet, congue a urna. Duis ante elit, ultrices congue libero a, tristique pellentesque orci. Praesent sed massa vitae tortor placerat porttitor. Donec sit amet dolor purus. Cras felis risus, molestie non rhoncus nec, dignissim a purus. Fusce ultricies pretium lacus, sed tristique massa vehicula sit amet.</div>
-            </div>
+            <iframe width=100% height=100% src="{{ request.get_full_path }}date/p1" frameborder='0' scrolling='no'  style="display:block; width:100%; height: 100%;" onload="resizeIframe(this)"></iframe>
+            <script>function resizeIframe(obj) {obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';}</script>
         </div>
         <div class="col-sm-1 col-xs-12"></div>
     </div>
 
     <br>
 
-    <script>
+<script>
 function resize(obj)
 {obj.style.height = "1px";obj.style.height = (12+obj.scrollHeight)+"px";}
 $("#postReview").click(function(){
@@ -144,6 +151,9 @@ $(function(){
   $('.normal').autosize();
   $('.animated').autosize({append: "\n"});
 });
-      </script>
+
+
+
+</script>
 </main>
 {% endblock %}

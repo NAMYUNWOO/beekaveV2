@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^aboutus/$', aboutus, name='aboutus'),
     url(r'^faq/$', aboutus, name='faq'),
     url(r'^contactus/$', aboutus, name='contactus'),
-    url(r'^search_(?P<myfilter>[a-z|A-Z|가-힣|0-9|_]*)/$', search, name='search'),
+    url(r'^search_(?P<myfilter>.*)/$', search, name='search'),
 ]
