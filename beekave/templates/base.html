@@ -49,7 +49,7 @@ body {
             <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
 
             {% else %}
-            <li><a class="nav-link">Welcome, Anonymous </a></li>
+            <li><a class="nav-link">Welcome, guest </a></li>
             <li><a class="nav-link" href="{% url 'login' %}">Login</a> </li>
             <li><a class="nav-link right" href="{% url 'register' %}">Register</a></li>
             {% endif %}

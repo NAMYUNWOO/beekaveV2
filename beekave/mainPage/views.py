@@ -5,7 +5,8 @@ from django.urls import reverse
 from django.db.models import F
 from django.core.urlresolvers import resolve
 from mainPage.models import *
-
+from detail.models import *
+from django.db.models import *
 
 
 
@@ -24,30 +25,24 @@ class mainPage(View):
                 return HttpResponseRedirect(reverse('search', args=[search_query]))
         return None
 
-    def getParentsVal(self,x1):
-        objs = x1.objects.order_by('rank')
-        obj = objs.first()
-        if obj.desc =="Act":
-            return objs.values("rank","movieCode",title =F("movieCode__title"),thumbnail = F("movieCode__thumbnail")
-                                   ,audit=F("movieCode__audit"),score = F("movieCode__scoreAct"))
-        elif obj.desc =="Story":
-            return objs.values("rank","movieCode",title =F("movieCode__title"),thumbnail = F("movieCode__thumbnail")
-                                   ,audit=F("movieCode__audit"),score = F("movieCode__scoreStory"))
-        elif obj.desc =="Director":
-            return objs.values("rank","movieCode",title =F("movieCode__title"),thumbnail = F("movieCode__thumbnail")
-                                   ,audit=F("movieCode__audit"),score = F("movieCode__scoreDirector"))
-        elif obj.desc =="Ost":
-            return objs.values("rank","movieCode",title =F("movieCode__title"),thumbnail = F("movieCode__thumbnail")
-                                   ,audit=F("movieCode__audit"),score = F("movieCode__scoreOST"))
-        elif obj.desc =="Visual":
-            return objs.values("rank","movieCode",title =F("movieCode__title"),thumbnail = F("movieCode__thumbnail")
-                                   ,audit=F("movieCode__audit"),score = F("movieCode__scoreVisual"))
-        elif obj.desc =="Fresh":
-            return objs.values("rank","movieCode",title =F("movieCode__title"),thumbnail = F("movieCode__thumbnail")
-                                   ,audit=F("movieCode__audit"),score = F("movieCode__scoreFresh"))
+
+    def getParentsVal(self,modelList,nameList):
+        for scoreName, model in zip(nameList,modelList):
+            targetModel = model.values("moviecode","title","thumbnail","audit",scorefactor = F(scoreName))
+            yield sorted(list(targetModel[:50]),key=lambda x:x['scorefactor'],reverse=True)[:10]
     def getContext(self):
         movieFactor = ["연기","스토리","감독","OST","영상미","신선도"]
-        models = [(movieFactor[i-1], eval("Movie_rank_" + str(i))) for i in range(1, 7)]
-        top10_movie_mat = list(map(lambda x: (x[0],self.getParentsVal(x[1])), models))
+        #sorted(list(movieFactor,key=lambda x: x.scoreact, reverse=True)[:10]
+        scoreact = Movie.objects.filter(Q(scoreact__isnull=False) & ~Q(genre="애니메이션")).order_by("-opendate")
+        scorestory = Movie.objects.filter(scorestory__isnull=False).order_by("-opendate")
+        scoredirector = Movie.objects.filter(scoredirector__isnull=False).order_by("-opendate")
+        scoreost = Movie.objects.filter(scoreost__isnull=False).order_by("-opendate")
+        scorevisual = Movie.objects.filter(scorevisual__isnull=False).order_by("-opendate")
+        scorefresh = Movie.objects.filter(scorefresh__isnull=False).order_by("-opendate")
+        scoreList = [scoreact,scorestory,scoredirector,scoreost,scorevisual,scorefresh]
+        nameList = ['scoreact','scorestory','scoredirector','scoreost','scorevisual','scorefresh']
+        factorSortedList = list(self.getParentsVal(scoreList,nameList))
+
+        top10_movie_mat = [(movieFactor[i],factorSortedList[i]) for i in range(6)]
         context = {'top10_movie_mat': top10_movie_mat, }
         return context

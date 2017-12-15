@@ -8,7 +8,7 @@
             <div id="carouselExampleControls" class="col-xs-12 carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="img-fluid nopadding" src="{{detail.thumbnail}}" alt="First slide">
+                        <img class="img-fluid nopadding" src="{{detail.thumbnail}}"  alt="First slide">
                     </div>
                     <div class="carousel-item">
                         <img class="img-fluid nopadding" src="{{detail.thumbnail}}" alt="Second slide">
@@ -28,7 +28,7 @@
             </div>
             <div class="col-xs-3">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/v7MGUNV8MxU" allowfullscreen></iframe> <!--left going to be editted {{ youtubeUrl }}  -->
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ youtubeMovieID }}" allowfullscreen></iframe> <!--left going to be editted {{ youtubeUrl }}  -->
                 </div>
             </div>
         </div>
@@ -49,6 +49,39 @@
                                 {% endif %}
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                        <div class="col-xs-12 col-md-12" style="margin-bottom:15px;">
+                                <a class="rated_explain">총점&nbsp;</a>
+                                {% for i in detail.score|iterInt %}
+                                <i class="rated_star fa fa-star" aria-hidden="true"></i>
+                                {% endfor %}
+                                {% for i in detail.score|iterFloat %}
+                                <i class="rated_star fa fa-star-half" aria-hidden="true"  ></i>
+                                {% endfor %}
+
+                                <i class="rated_explain bold" style="font-size:20px !important;">{{ detail.score }}</i>
+                        </div>
+
+                        {% for score_i in score_list %}
+                        <br>
+                        <div class="col-xs-12 col-sm-6" style="margin-bottom:10px;">
+                                <a class="rated_explain">{{ score_i.1 }}&nbsp;</a>
+                                {% if not score_i.0 %}
+                                    <a class="rated_explain" style="font-size:15px !important;">평가점수가 없습니다.</a>
+                                {% else %}
+                                    {% for i in score_i.0|iterInt %}
+                                    <i class="rated_star fa fa-star" aria-hidden="true"></i>
+                                    {% endfor %}
+                                    {% for i in score_i.0|iterFloat %}
+                                    <i class="rated_star fa fa-star-half" aria-hidden="true"  ></i>
+                                    {% endfor %}
+                                    <i class="rated_explain bold" style="font-size:20px !important;">{{ score_i.0 }}</i>
+                                {% endif %}
+                        </div>
+                        {% endfor %}
+                        </div>
+                        <br>
                     </div>
                     <div class="col-xs-12 col-sm-6">
                         <div class="col-xs-12">
@@ -59,7 +92,7 @@
                             <h1 style="color:white;">주요 정보5</h1>
                             <h1 style="color:white;">주요 정보6</h1>
                             <h1 style="color:white;">주요 정보7</h1>
-                            <h1 style="color:white;">주요 정보n</h1>
+
                         </div>
                         <br><br>
                         <div class="col-xs-12">
@@ -67,7 +100,7 @@
                                 <div class="panel-body">
                                     <div class="form-group d-none d-md-block">
                                         <textarea id="reviewText" class="form-control" name="message" placeholder="평가를 남겨주세요" rows="3" style="margin-bottom:5px;"></textarea>
-                                        <input id="input-1" name="input-1" value="5" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="md">
+                                        <input id="input-1" name="input-1" value="0" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="md">
                                         {% if user.is_active %}
                                         <input id="postReview" class="btn btn-outline-warning btn-lg pull-right" type="submit" value="리뷰남기기"/>
                                         {% else %}
@@ -76,7 +109,7 @@
                                     </div>
                                     <div class="form-group d-block d-sm-none">
                                         <textarea id="reviewTextXS" class="form-control" onkeydown="resize(this)" onkeyup="resize(this)" name="message" placeholder="평가를 남겨주세요" rows="1" style="margin-bottom:10px;"></textarea>
-                                        <input id="input-1XS" name="input-1" value="5" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="xs">
+                                        <input id="input-1XS" name="input-1" value="0" class="rating rating-loading" data-min="0" data-max="10" data-step="1" data-size="xs">
                                         {% if user.is_active %}
                                         <input id="postReviewXS" class="btn btn-outline-warning pull-right" type="submit"  value="리뷰남기기"/>
                                         {% else %}
@@ -104,7 +137,7 @@
 
     <br>
 
-<script>
+    <script>
 function resize(obj)
 {obj.style.height = "1px";obj.style.height = (12+obj.scrollHeight)+"px";}
 $("#postReview").click(function(){

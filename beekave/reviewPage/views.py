@@ -25,7 +25,7 @@ def reviews(request,id,filter,page):
         print(words)
         for word in words:
             query &= Q(comment__icontains=word)
-    query &= Q(movieCode=id)
+    query &= Q(moviecode=id)
     cmmtList = reviewMovie.objects.filter(query).order_by(validOrder(filter12[0]))
 
 
@@ -43,7 +43,9 @@ def review_like(request):
     contentsType =  request.POST.get('type', None)
     if contentsType == "m":
         review = get_object_or_404(reviewMovie, pk=review_id)
-        if request.user not in review.votingUser.all():
+        if str(request.user) == "AnonymousUser":
+            context = {'like_count': review.recommend, 'message': "로그인 후 공감 버튼을 누르실 수 있습니다."}
+        elif request.user not in review.votingUser.all():
             review.votingUser.add(request.user)
             review.recommend += 1
             review.save()
@@ -60,7 +62,9 @@ def review_dislike(request):
     contentsType =  request.POST.get('type', None)
     if contentsType == "m":
         review = get_object_or_404(reviewMovie, pk=review_id)
-        if request.user not in review.votingUser.all():
+        if str(request.user) == "AnonymousUser":
+            context = {'like_count': review.recommend, 'message': "로그인 후 비공감 버튼을 누르실 수 있습니다."}
+        elif request.user not in review.votingUser.all():
             review.votingUser.add(request.user)
             review.nonRecommend  += 1
             review.save()

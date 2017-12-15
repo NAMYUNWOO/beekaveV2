@@ -8,7 +8,7 @@ class reviewMovie(models.Model):
     date = models.DateTimeField()
     comment = models.CharField(max_length=2000)
     score = models.FloatField()
-    movieCode = models.ForeignKey(Movie,null=False)
+    moviecode = models.ForeignKey(Movie,null=False)
     recommend = models.IntegerField()
     nonRecommend = models.IntegerField()
     votingUser = models.ManyToManyField(User,related_name="votingUser")

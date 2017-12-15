@@ -28,19 +28,19 @@ def parentsUrls(myUrl):
 
 @register.filter(name='iterInt')
 def iterInt(num):
-    return range(int(num))
+    return range(int(num/2))
 
 
 @register.filter(name='iterFloat')
 def iterFloat(num):
-    if num-int(num) == 0.0:
+    if num/2.0-int(num/2) == 0.0:
         return range(0)
     else:
         return range(1)
 
 @register.filter(name='getDecScore')
 def getDecScore(num):
-    return int(float(num)*2)
+    return int(float(num))
 
 @register.filter(name='div')
 def div( value, arg ):

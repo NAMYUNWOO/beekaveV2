@@ -7269,6 +7269,28 @@ fieldset {
 }
 
 .landscape {
-    height: 300px;
+    height: 500px;
     width: 100%;
+}
+
+
+@media (max-width:500px) {
+
+  /* your conditional / responsive CSS inside this condition */
+
+  .landscape {
+    height: 100%;
+    width: 100%;
+}
+
+}
+
+.rated_star{
+   font-size:20px !important;
+   color:#fde16d !important;
+}
+
+.rated_explain{
+    font-size:20px !important;
+    color:white !important;
 }

@@ -594,7 +594,7 @@
             5: 5
         },
         clearButtonTitle: 'Clear',
-        clearCaption: 0
+        clearCaption: '0'
     };
 
     $.fn.rating.Constructor = Rating;

@@ -45,6 +45,9 @@
                       <span class="fa fa-star-half" aria-hidden="true"></span>
                     {% endfor %}
                   </span>
+                    {% if review.score|getDecScore == 0 %}
+                        <span class="fa fa-times" aria-hidden="true"></span>
+                    {% endif %}
                     <span class="bold">&nbsp {{ review.score|getDecScore }}</span>
                 </div>
                 <div class="review-block-description">{{review.comment}}</div>

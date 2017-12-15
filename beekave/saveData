@@ -1,0 +1,32 @@
+import pandas as pd
+import datetime
+df = pd.read_excel('testscore.xlsx',encoding="cp949")
+df.opendate = df.opendate.map(lambda x:str(int(x)))
+df.opendate = df.opendate.map(lambda x:datetime.datetime(int(x[:4]),int(x[4:6]),int(x[-2:])))
+from detail.models import Movie
+mvList = []
+for i in range(len(df)):
+    sample = df.iloc[i,:]
+    kwarg = {i:j for i,j in  zip(sample.index, sample.values) if str(j) != "nan"}
+    mv = Movie(**kwarg)
+    mvList.append(mv)
+    Movie.objects.bulk_create(mvList)
+
+
+
+from detail.models import Movie
+from mainPage.models import *
+mainModels = [eval("Movie_rank_"+str(i)) for i in range(1,7)]
+rank1 = Movie.objects.all().order_by("-scoreAct")[:10]
+rank2 = Movie.objects.all().order_by("-scoreStory")[:10]
+rank3 = Movie.objects.all().order_by("-scoreDirector")[:10]
+rank4 = Movie.objects.all().order_by("-scoreOST")[:10]
+rank5 = Movie.objects.all().order_by("-scoreVisual")[:10]
+rank6 = Movie.objects.all().order_by("-scoreFresh")[:10]
+rankList = [eval("rank"+str(i)) for i in range(1,7)]
+for i,j in zip(mainModels,rankList):
+    for r,j2 in enumerate(j):
+        myrank = r+1
+        tosave = i(rank=myrank,movieCode=j2)
+        tosave.save()
+

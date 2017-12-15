@@ -50,17 +50,17 @@
                     </thead>
                     <tbody>
                     {% for movie in top10_movie_list.1 %}
-                    {% if movie.rank == 1 %}
+                    {% if forloop.counter == 1 %}
                     <tr class="first">
                         <td class="img_col">
                             <div class="img_wrap">
-                                <a href="/{{movie.movieCode}}">
+                                <a href="/{{movie.moviecode}}">
                                     <img class="product_image small_image" src="{{movie.thumbnail}}" alt="{{movie.title}}" style="width:53px; height:68px;" />
                                 </a>
                             </div>
                         </td>
                         <td class="title_col" >
-                            <a class="title" href="/{{movie.movieCode}}" style="color:black;">
+                            <a class="title" href="/{{movie.moviecode}}" style="color:black;">
                                 {{movie.title}}
                             </a>
                             <div>
@@ -71,13 +71,13 @@
                         </td>
 
                         <td class="score_col">
-                            <a class="beescore_anchor" href="/{{movie.movieCode}}">
-                                {% if movie.score > 6 %}
-                                <span class="beescore_w medium movie positive">{{movie.score}}</span>
-                                {% elif movie.score > 4 %}
-                                <span class="beescore_w medium movie mixed">{{movie.score}}</span>
+                            <a class="beescore_anchor" href="/{{movie.moviecode}}">
+                                {% if movie.scorefactor > 6 %}
+                                <span class="beescore_w medium movie positive">{{movie.scorefactor}}</span>
+                                {% elif movie.scorefactor > 4 %}
+                                <span class="beescore_w medium movie mixed">{{movie.scorefactor}}</span>
                                 {% else %}
-                                <span class="beescore_w medium movie negative">{{movie.score}}</span>
+                                <span class="beescore_w medium movie negative">{{movie.scorefactor}}</span>
                                 {% endif %}
                             </a>
                         </td>
@@ -86,7 +86,7 @@
                     {% else %}
                     <tr >
                         <td class="title_col" colspan="2">
-                            <a class="title" href="/{{movie.movieCode}}"  style="color:black;">
+                            <a class="title" href="/{{movie.moviecode}}"  style="color:black;">
                                 {{movie.title}}
                             </a>
                             <div>
@@ -96,13 +96,13 @@
                             </div>
                         </td>
                         <td class="score_col">
-                            <a class="beescore_anchor" href="/{{movie.movieCode}}">
-                                {% if movie.score > 6 %}
-                                <span class="beescore_w small movie positive">{{movie.score}}</span>
-                                {% elif movie.score > 4 %}
-                                <span class="beescore_w small movie mixed">{{movie.score}}</span>
+                            <a class="beescore_anchor" href="/{{movie.moviecode}}">
+                                {% if movie.scorefactor > 6 %}
+                                <span class="beescore_w small movie positive">{{movie.scorefactor}}</span>
+                                {% elif movie.scorefactor > 4 %}
+                                <span class="beescore_w small movie mixed">{{movie.scorefactor}}</span>
                                 {% else %}
-                                <span class="beescore_w small movie negative">{{movie.score}}</span>
+                                <span class="beescore_w small movie negative">{{movie.scorefactor}}</span>
                                 {% endif %}
                             </a>
                         </td>
