@@ -2,6 +2,16 @@ from django import template
 import re
 register = template.Library()
 
+@register.filter(name='getScoreType')
+def getScoreType(scoreTypeHan):
+    scoreTypeHanList = ["연기", "스토리", "감독", "OST", "영상미", "신선도"]
+    scoreTypeEngList = ["scoreact", "scorestory", "scoredirector", "scoreost", "scorevisual", "scorefresh"]
+    for sth,ste in zip(scoreTypeHanList,scoreTypeEngList):
+        if sth == scoreTypeHan:
+            return ste
+    return "scoreall"
+
+
 @register.filter(name='order_is')
 def order_is(myUrl,opt):
     curOpt = myUrl.split("/")[2]
@@ -9,6 +19,7 @@ def order_is(myUrl,opt):
         return "btn-outline-danger"
     else:
         return "btn-outline-dark"
+
 
 @register.filter(name='currentUrl')
 def currentUrl(myUrl,check):

@@ -29,6 +29,7 @@ def postReview(request):
     post.date = timezone.now()
     post.nonRecommend = 0
     post.recommend = 0
+    post.score = reviewScore
     post.moviecode = Movie.objects.get(pk=moviecode)
     post.comment = reviewText
     if not post.score:

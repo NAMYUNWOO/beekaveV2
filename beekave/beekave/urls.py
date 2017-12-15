@@ -6,6 +6,7 @@ from beekave.views import UserCreateView, UserCreateDoneTV,search
 from reviewPage.views import review_like,review_dislike,reviews
 from detail.views import postReview,detail
 from aboutus.views import aboutus
+from movielist.views import movielist
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -22,4 +23,6 @@ urlpatterns = [
     url(r'^faq/$', aboutus, name='faq'),
     url(r'^contactus/$', aboutus, name='contactus'),
     url(r'^search_(?P<myfilter>.*)/$', search, name='search'),
+    url(r'^mvlist_(?P<range>\w+)_(?P<scoretype>\w+)/$', movielist, name='movielist'),
+
 ]

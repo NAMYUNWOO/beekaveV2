@@ -2,39 +2,58 @@
 {% load static from staticfiles %}
 {% load self_defined_filters %}
 {% block content %}
-<main role="main">
+<main role="main" style="background-color:#f4f4f4 !important;">
 
-    <div id="mycarousel" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#mycarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#mycarousel" data-slide-to="1"></li>
-            <li data-target="#mycarousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item landscape active">
-                <img class="d-block w-100" src="{% static '/images/ny.jpg' %}" alt="First slide">
-            </div>
-            <div class="carousel-item landscape">
-                <img class="d-block w-100" src="{% static '/images/la.jpg' %}" alt="Second slide">
-            </div>
-            <div class="carousel-item landscape">
-                <img class="d-block w-100" src="{% static '/images/chicago.jpg' %}" alt="Third slide">
-            </div>
+    <div class="container">
+        <br><br><br>
+        <div class="row">
+            <h1>&nbsp;최신영화 TOP4</h1>
         </div>
-        <a class="carousel-control-prev" href="#mycarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#mycarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+        <hr>
+        <div class="row row-margin-bottom">
+            {% for movie in scoreallTop10 %}
+            <div class="col-sm-5 lib-item" data-category="ui">
+                <div class="lib-panel">
+                    <div class="row box-shadow">
+                        <div class="col-md-6">
+                            <a href="/{{movie.moviecode}}">
+                                <img class="lib-img" src="{{ movie.thumbnail }}">
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="lib-row lib-header">
+                                <a class="bold" href="/{{movie.moviecode}}" style="color:black;">{{ movie.title }}</a>
+                                <hr>
+                            </div>
+                            <div class="lib-row lib-desc">
+                                <div align="right" style="margin-bottom:5px;">
+                                {% if not movie.scorefactor %}
+                                    <a class="rated_explain" style="font-size:15px !important;">평가점수가 없습니다.</a>
+                                {% else %}
+                                    {% for i in movie.scorefactor|iterInt %}
+                                    <i class="rated_star fa fa-star" aria-hidden="true"></i>
+                                    {% endfor %}
+                                    {% for i in movie.scorefactor|iterFloat %}
+                                    <i class="rated_star fa fa-star-half" aria-hidden="true"  ></i>
+                                    {% endfor %}
+                                    <i class="bold" style="font-size:20px !important;">{{ movie.scorefactor }}</i>
+                                {% endif %}
+                                </div>
+                                <p class="lib-content" align="right">{{ movie.opendate }}</p>
+                                <p class="lib-content" align="right">{{movie.audit}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1"></div>
+            {% endfor %}
+        </div>
     </div>
-
     <br><br><br>
 
     <div class="container" align="center">
-        <h2 align="left">TOP-10 Ranking</h2>
+        <h2 align="left">요소별 점수 TOP10랭킹</h2>
         <hr>
         <div class="row">
             {%if top10_movie_mat %}
@@ -44,7 +63,7 @@
                     <thead>
                     <tr>
                         <th colspan="3">
-                            <a class="oswald upper" href="/movies" style="color:white;">{{ top10_movie_list.0 }}</a>
+                            <a class="oswald upper" href="/mvlist_recent_{{ top10_movie_list.0|getScoreType }}" style="color:white;">{{ top10_movie_list.0 }}</a>
                         </th>
                     </tr>
                     </thead>
@@ -65,7 +84,7 @@
                             </a>
                             <div>
                 <span class="sub_title">
-                  {{movie.audits}}
+                  {{movie.audit}}
                 </span>
                             </div>
                         </td>
@@ -91,7 +110,7 @@
                             </a>
                             <div>
                 <span class="sub_title">
-                  {{movie.audits}}
+                  {{movie.audit}}
                 </span>
                             </div>
                         </td>
@@ -113,7 +132,7 @@
                     <tfoot>
                     <tr>
                         <td colspan="3">
-                            <a href="/movies">All new Movies &raquo;</a>
+                            <a href="/mvlist_recent_{{ top10_movie_list.0|getScoreType }}">All new Movies &raquo;</a>
                         </td>
                     </tr>
                     </tfoot>

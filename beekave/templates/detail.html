@@ -36,16 +36,16 @@
             <div class="container" style="margin-top:30px; margin-bottom:20px;">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
-                        <div class="h1" style="color:white;">{{detail.title}}</div>
+                        <div class="h1 beekaveTitle">{{detail.title}}</div>
                         <div class="h4" style="color:white;">{{detail.opendate}}</div>
                         <div class="panel panel-default" style="background-color:black; border-color:transparent;">
                             <div class="panel-score">
                                 {% if detail.score > 6 %}
-                                <div class="beescore_w large no_tbd movie positive">{{detail.score}}</div>
+                                <div class="beescore_w larger no_tbd movie positive">{{detail.score}}</div>
                                 {% elif detail.score > 4 %}
-                                <div class="beescore_w large no_tbd movie mixed">{{detail.score}}</div>
+                                <div class="beescore_w larger no_tbd movie mixed">{{detail.score}}</div>
                                 {% else %}
-                                <div class="beescore_w large no_tbd movie negative">{{detail.score}}</div>
+                                <div class="beescore_w larger no_tbd movie negative">{{detail.score}}</div>
                                 {% endif %}
                             </div>
                         </div>
@@ -138,6 +138,11 @@
     <br>
 
     <script>
+$('html, body').animate({
+    scrollTop: ($('.beekaveTitle').offset().top-300)
+},500);
+
+
 function resize(obj)
 {obj.style.height = "1px";obj.style.height = (12+obj.scrollHeight)+"px";}
 $("#postReview").click(function(){

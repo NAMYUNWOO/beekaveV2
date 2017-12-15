@@ -28,21 +28,23 @@ class mainPage(View):
 
     def getParentsVal(self,modelList,nameList):
         for scoreName, model in zip(nameList,modelList):
-            targetModel = model.values("moviecode","title","thumbnail","audit",scorefactor = F(scoreName))
+            targetModel = model.values("moviecode","title","thumbnail","audit","opendate",scorefactor = F(scoreName))
             yield sorted(list(targetModel[:50]),key=lambda x:x['scorefactor'],reverse=True)[:10]
     def getContext(self):
-        movieFactor = ["연기","스토리","감독","OST","영상미","신선도"]
+        movieFactor = ["종점","연기","스토리","감독","OST","영상미","신선도"]
         #sorted(list(movieFactor,key=lambda x: x.scoreact, reverse=True)[:10]
+        scoreall = Movie.objects.filter(score__isnull=False).order_by("-opendate")
         scoreact = Movie.objects.filter(Q(scoreact__isnull=False) & ~Q(genre="애니메이션")).order_by("-opendate")
         scorestory = Movie.objects.filter(scorestory__isnull=False).order_by("-opendate")
         scoredirector = Movie.objects.filter(scoredirector__isnull=False).order_by("-opendate")
         scoreost = Movie.objects.filter(scoreost__isnull=False).order_by("-opendate")
         scorevisual = Movie.objects.filter(scorevisual__isnull=False).order_by("-opendate")
         scorefresh = Movie.objects.filter(scorefresh__isnull=False).order_by("-opendate")
-        scoreList = [scoreact,scorestory,scoredirector,scoreost,scorevisual,scorefresh]
-        nameList = ['scoreact','scorestory','scoredirector','scoreost','scorevisual','scorefresh']
+        scoreList = [scoreall,scoreact,scorestory,scoredirector,scoreost,scorevisual,scorefresh]
+        nameList = ['score','scoreact','scorestory','scoredirector','scoreost','scorevisual','scorefresh']
         factorSortedList = list(self.getParentsVal(scoreList,nameList))
 
-        top10_movie_mat = [(movieFactor[i],factorSortedList[i]) for i in range(6)]
-        context = {'top10_movie_mat': top10_movie_mat, }
+        top10_movie_mat = [(movieFactor[i],factorSortedList[i]) for i in range(7)]
+        scoreallTop10 = top10_movie_mat[0][1][:4]
+        context = {'top10_movie_mat': top10_movie_mat[1:], "scoreallTop10":scoreallTop10}
         return context

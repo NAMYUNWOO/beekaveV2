@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mainPage',
     'detail',
     'reviewPage',
+    'movielist',
     'widget_tweaks',
 
 ]
