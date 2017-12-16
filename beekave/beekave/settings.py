@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'reviewPage',
     'movielist',
     'widget_tweaks',
+    'django_filters',
 
 ]
 

@@ -9,6 +9,7 @@ class Movie(models.Model):
     nation = models.CharField(max_length=50,null=True)
     opendate = models.DateField(blank=False,null=True)
     showtime = models.IntegerField(default=0,null=True)
+    openyear = models.IntegerField(default=0,null=True)
     genre = models.CharField(max_length=50,null=True)
     audit = models.CharField(max_length=50,null=True)
     director = models.CharField(max_length=100,null=True)

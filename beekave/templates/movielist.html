@@ -11,10 +11,19 @@
     </div>
 
 
-  <div class="container" align="center">
-    <div class="row">
+    <div class="container" align="center">
         <p>{{ scoretype }}</p>
+        <div class="row">
+            <form method="get">
+                {{ filter.form.as_p }}
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <ul>
+            {% for movie in filter.qs %}
+            <li>{{ movie.title }} - {{ movie.opendate }}</li>
+            {% endfor %}
+        </ul>
     </div>
-  </div>
 </main>
 {% endblock %}

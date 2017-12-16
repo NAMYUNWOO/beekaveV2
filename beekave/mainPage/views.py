@@ -28,7 +28,7 @@ class mainPage(View):
 
     def getParentsVal(self,modelList,nameList):
         for scoreName, model in zip(nameList,modelList):
-            targetModel = model.values("moviecode","title","thumbnail","audit","opendate",scorefactor = F(scoreName))
+            targetModel = model.values("moviecode","title","thumbnail","audit",'genre',"opendate",scorefactor = F(scoreName))
             yield sorted(list(targetModel[:50]),key=lambda x:x['scorefactor'],reverse=True)[:10]
     def getContext(self):
         movieFactor = ["종점","연기","스토리","감독","OST","영상미","신선도"]

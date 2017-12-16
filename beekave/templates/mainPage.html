@@ -26,20 +26,21 @@
                                 <hr>
                             </div>
                             <div class="lib-row lib-desc">
-                                <div align="right" style="margin-bottom:5px;">
+                                <div align="right" style="margin-bottom:5px; color:black;">
                                 {% if not movie.scorefactor %}
                                     <a class="rated_explain" style="font-size:15px !important;">평가점수가 없습니다.</a>
                                 {% else %}
                                     {% for i in movie.scorefactor|iterInt %}
-                                    <i class="rated_star fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
                                     {% endfor %}
                                     {% for i in movie.scorefactor|iterFloat %}
-                                    <i class="rated_star fa fa-star-half" aria-hidden="true"  ></i>
+                                    <i class="fa fa-star-half fa-lg" aria-hidden="true"  ></i>
                                     {% endfor %}
                                     <i class="bold" style="font-size:20px !important;">{{ movie.scorefactor }}</i>
                                 {% endif %}
                                 </div>
                                 <p class="lib-content" align="right">{{ movie.opendate }}</p>
+                                <p class="lib-content" align="right">{{movie.genre}}</p>
                                 <p class="lib-content" align="right">{{movie.audit}}</p>
                             </div>
                         </div>
@@ -53,7 +54,7 @@
     <br><br><br>
 
     <div class="container" align="center">
-        <h2 align="left">요소별 점수 TOP10랭킹</h2>
+        <h2 align="left">TOP10 랭킹</h2>
         <hr>
         <div class="row">
             {%if top10_movie_mat %}
@@ -84,7 +85,7 @@
                             </a>
                             <div>
                 <span class="sub_title">
-                  {{movie.audit}}
+                  {{movie.audit}} <span class="link_divider">|</span> {{ movie.genre }}
                 </span>
                             </div>
                         </td>
@@ -110,7 +111,7 @@
                             </a>
                             <div>
                 <span class="sub_title">
-                  {{movie.audit}}
+                  {{movie.audit}} <span class="link_divider">|</span> {{ movie.genre }}
                 </span>
                             </div>
                         </td>
