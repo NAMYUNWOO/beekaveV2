@@ -2,28 +2,138 @@
 {% load static from staticfiles %}
 {% load self_defined_filters %}
 {% block content %}
+{% load widget_tweaks %}
 <main role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+    <div class="jumbotron" style="color:white;background-color:#212529!important;">
+        <h3 align="center">{{ filterMessage }}</h3>
+        <br>
         <div class="container">
-            <h1 class="display-3">{{ range }}</h1>
-        </div>
-    </div>
-
-
-    <div class="container" align="center">
-        <p>{{ scoretype }}</p>
-        <div class="row">
             <form method="get">
-                {{ filter.form.as_p }}
-                <button type="submit">Search</button>
+                <div class="well">
+                    <div class="row">
+                        <div class="form-group col-sm-3 col-md-3">
+                            <a>&nbsp;연도</a>
+                            {% render_field form.openyear class="form-control" %}
+                        </div>
+                        <div class="form-group col-sm-3 col-md-3">
+                            <a>&nbsp;장르</a>
+                            {% render_field form.genre class="form-control" %}
+                        </div>
+                        <div class="form-group col-sm-3 col-md-3">
+                            <a>&nbsp;스코어</a>
+                            <select name="score" class="form-control" id="id_score">
+                                <option value="-score">총점 높은순</option>
+                                <option value="-scoreact">연기점수 높은순</option>
+                                <option value="-scorestory">스토리점수 높은순</option>
+                                <option value="-scoredirector">감독점수 높은순</option>
+                                <option value="-scoreost">OST점수 높은순</option>
+                                <option value="-scorevisual">영상미점수 높은순</option>
+                                <option value="-scorefresh">신선도점수 높은순</option>
+                                <option value="score">총점 낮은순</option>
+                                <option value="scoreact">연기점수 낮은순</option>
+                                <option value="scorestory">스토리점수 낮은순</option>
+                                <option value="scoredirector">감독점수 낮은순</option>
+                                <option value="scoreost">OST점수 낮은순</option>
+                                <option value="scorevisual">영상미점수 낮은순</option>
+                                <option value="scorefresh">신선도점수 낮은순</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-3 col-md-3">
+                            <a>&nbsp;제목 검색</a>
+                            {% render_field form.title class="form-control" placeholder="영화제목 검색" %}
+                        </div>
+                        <div class="col-sm-12 col-md-12" align="right">
+                            <button type="submit" class="btn btn-outline-warning my-2 my-sm-0">
+                                <span class="fa fa-search" aria-hidden="true"></span> Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
-        <ul>
-            {% for movie in filter.qs %}
-            <li>{{ movie.title }} - {{ movie.opendate }}</li>
+    </div>
+    <div class="container">
+        <div class="infinite-container">
+            {% for movie in movies %}
+            <div class="infinite-item">
+                <div class="row justify-content-md-center">
+                    <div class="col-xs-12 d-none d-sm-block">
+                        <div class="beeCard" style="margin-bottom:50px">
+                            <div class="cover" style="background-image: url({{ movie.thumbnail }})">
+                            </div>
+                            <div class="info">
+                                <a href="#" class="beedetail">
+                                    <i class="fa fa-film" aria-hidden="true" style="font-size:20px !important;"></i>
+                                    <font>Details</font>
+                                </a>
+                                <div class="content">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td align="right" valign="middle" style="color:black;"><h5>{{ movie.title }}</h5>
+                                                <a style="font-size:15px;">{{ movie.genre }}</a><br>
+                                                <a style="font-size:15px;">{{ movie.opendate|getDT }}</a><br>
+                                                <a style="font-size:15px;">{{ movie.nation }}</a>
+                                            </td>
+                                            <td width="20" rowspan="2" class="border-right"> </td>
+                                            <td width="140" rowspan="2" align="center" valign="middle">
+                                                <h1>{{ movie.score }}</h1>
+                                                <span class="stars">
+                                                    <em style="width: {{ movie.score|getPercentage }}"></em>
+                                                </span><br/>
+                                                <small></small>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 d-block d-sm-none">
+                        <div class="card" style="margin-bottom:50px; box-shadow: 0 2px 15px rgba(0, 0, 0, .5);">
+                            <img class="card-img-top" src="{{ movie.thumbnail }}" alt="Card image cap">
+                            <div class="card-block">
+                                <h4 class="card-title">{{ movie.title }}</h4>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Cras justo odio</li>
+                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+                            <div class="card-block">
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
-        </ul>
+        </div>
+
+
+
+
+
+
+        <div class="col-md-12">
+            {% if movies.has_next %}
+            <a class="infinite-more-link" href="{{ request.get_full_path|andorquestion }}page={{ movies.next_page_number }}">More</a>
+            {% endif %}
+        </div>
     </div>
 </main>
+<script>
+    $("#id_score").val( '{{ selected }}' );
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+ </script>
 {% endblock %}

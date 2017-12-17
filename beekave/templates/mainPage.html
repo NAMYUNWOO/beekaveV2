@@ -15,12 +15,12 @@
             <div class="col-sm-5 lib-item" data-category="ui">
                 <div class="lib-panel">
                     <div class="row box-shadow">
-                        <div class="col-md-6">
+                        <div class="col-xs-6 col-md-6">
                             <a href="/{{movie.moviecode}}">
                                 <img class="lib-img" src="{{ movie.thumbnail }}">
                             </a>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-xs-6 col-md-6">
                             <div class="lib-row lib-header">
                                 <a class="bold" href="/{{movie.moviecode}}" style="color:black;">{{ movie.title }}</a>
                                 <hr>
@@ -39,7 +39,7 @@
                                     <i class="bold" style="font-size:20px !important;">{{ movie.scorefactor }}</i>
                                 {% endif %}
                                 </div>
-                                <p class="lib-content" align="right">{{ movie.opendate }}</p>
+                                <p class="lib-content" align="right">{{ movie.opendate|getDT }}</p>
                                 <p class="lib-content" align="right">{{movie.genre}}</p>
                                 <p class="lib-content" align="right">{{movie.audit}}</p>
                             </div>
@@ -50,11 +50,12 @@
             <div class="col-sm-1"></div>
             {% endfor %}
         </div>
+        <hr>
     </div>
     <br><br><br>
 
     <div class="container" align="center">
-        <h2 align="left">TOP10 랭킹</h2>
+        <h2 align="left">요소별 점수 랭킹</h2>
         <hr>
         <div class="row">
             {%if top10_movie_mat %}
@@ -64,7 +65,7 @@
                     <thead>
                     <tr>
                         <th colspan="3">
-                            <a class="oswald upper" href="/mvlist_recent_{{ top10_movie_list.0|getScoreType }}" style="color:white;">{{ top10_movie_list.0 }}</a>
+                            <a class="oswald upper" href="/mvlist_recent_-{{ top10_movie_list.0|getScoreType }}" style="color:white;">{{ top10_movie_list.0 }}</a>
                         </th>
                     </tr>
                     </thead>
@@ -92,9 +93,9 @@
 
                         <td class="score_col">
                             <a class="beescore_anchor" href="/{{movie.moviecode}}">
-                                {% if movie.scorefactor > 6 %}
+                                {% if movie.scorefactor >= 7.0 %}
                                 <span class="beescore_w medium movie positive">{{movie.scorefactor}}</span>
-                                {% elif movie.scorefactor > 4 %}
+                                {% elif movie.scorefactor >= 3.0 %}
                                 <span class="beescore_w medium movie mixed">{{movie.scorefactor}}</span>
                                 {% else %}
                                 <span class="beescore_w medium movie negative">{{movie.scorefactor}}</span>
@@ -117,9 +118,9 @@
                         </td>
                         <td class="score_col">
                             <a class="beescore_anchor" href="/{{movie.moviecode}}">
-                                {% if movie.scorefactor > 6 %}
+                                {% if movie.scorefactor >= 7.0 %}
                                 <span class="beescore_w small movie positive">{{movie.scorefactor}}</span>
-                                {% elif movie.scorefactor > 4 %}
+                                {% elif movie.scorefactor >= 3.0 %}
                                 <span class="beescore_w small movie mixed">{{movie.scorefactor}}</span>
                                 {% else %}
                                 <span class="beescore_w small movie negative">{{movie.scorefactor}}</span>
@@ -133,7 +134,7 @@
                     <tfoot>
                     <tr>
                         <td colspan="3">
-                            <a href="/mvlist_recent_{{ top10_movie_list.0|getScoreType }}">All new Movies &raquo;</a>
+                            <a href="/mvlist_recent_-{{ top10_movie_list.0|getScoreType }}">All new Movies &raquo;</a>
                         </td>
                     </tr>
                     </tfoot>

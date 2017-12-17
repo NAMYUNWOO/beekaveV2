@@ -23,6 +23,6 @@ urlpatterns = [
     url(r'^faq/$', aboutus, name='faq'),
     url(r'^contactus/$', aboutus, name='contactus'),
     url(r'^search_(?P<myfilter>.*)/$', search, name='search'),
-    url(r'^mvlist_(?P<range>\w+)_(?P<scoretype>\w+)/$', movielist, name='movielist'),
+    url(r'^mvlist_(?P<range>\w+)_(?P<scoretype>[-]{0,1}\w+)/$', movielist, name='movielist'),
 
 ]

@@ -2,6 +2,23 @@ from django import template
 import re
 register = template.Library()
 
+@register.filter(name='getPercentage')
+def getPercentage(score):
+    if not score:
+        return "0%"
+    return str(int(score*10)) +"%"
+
+
+
+@register.filter(name='getDT')
+def getDT(dt):
+    return str(dt.year)+"-"+str(dt.month)+"-"+ str(dt.day)
+
+@register.filter(name='scoreSelect')
+def scoreSelect(scoreTypeHan,option):
+    if scoreTypeHan == option:
+        return "selected"
+
 @register.filter(name='getScoreType')
 def getScoreType(scoreTypeHan):
     scoreTypeHanList = ["연기", "스토리", "감독", "OST", "영상미", "신선도"]
@@ -116,3 +133,16 @@ def decrPage(url):
         else:
             newElem.append(ele)
     return "/".join(newElem)
+
+@register.filter(name='andorquestion')
+def andorquestion(url):
+    if str(url).endswith("/"):
+        return url+"?"
+    else:
+        startend = [(m.start(0), m.end(0)) for m in re.finditer(r"&page=\d+", url)]
+        if len(startend):
+            startend = startend[0]
+            url = url[:startend[0]]
+        return url + "&"
+
+

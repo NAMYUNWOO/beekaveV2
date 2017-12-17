@@ -1,16 +1,31 @@
 from django.db import models
 
-# Create your models here.
+
+class Nation(models.Model):
+    nation = models.CharField(primary_key=True,max_length=100)
+    def __str__(self):
+        return self.nation
+
+class Genre(models.Model):
+    genre = models.CharField(primary_key=True,max_length=100)
+    def __str__(self):
+        return self.genre
+
+class OpenYear(models.Model):
+    openyear = models.IntegerField(primary_key=True)
+    def __str__(self):
+        return str(self.openyear)
+
 class Movie(models.Model):
     moviecode = models.CharField(max_length=20,primary_key=True)
     title = models.CharField(max_length=200,null=True)
     titleen = models.CharField(max_length=200,null=True)
     thumbnail = models.URLField(null=True)
-    nation = models.CharField(max_length=50,null=True)
     opendate = models.DateField(blank=False,null=True)
+    openyear = models.ForeignKey(OpenYear,null=True)
+    genre = models.ForeignKey(Genre, null=True)
+    nation = models.ForeignKey(Nation, null=True)
     showtime = models.IntegerField(default=0,null=True)
-    openyear = models.IntegerField(default=0,null=True)
-    genre = models.CharField(max_length=50,null=True)
     audit = models.CharField(max_length=50,null=True)
     director = models.CharField(max_length=100,null=True)
     score = models.FloatField(null=True)
@@ -34,3 +49,6 @@ class People(models.Model):
 
     def __str__(self):
         return self.peopleNm
+#class Media(models.Model):
+
+

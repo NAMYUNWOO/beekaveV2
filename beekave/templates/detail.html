@@ -37,12 +37,12 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
                         <div class="h1 beekaveTitle">{{detail.title}}</div>
-                        <div class="h4" style="color:white;">{{detail.opendate}}</div>
+                        <div class="h4" style="color:white;">{{detail.opendate|getDT}}</div>
                         <div class="panel panel-default" style="background-color:black; border-color:transparent;">
                             <div class="panel-score">
-                                {% if detail.score > 6 %}
+                                {% if detail.score >= 7.0 %}
                                 <div class="beescore_w larger no_tbd movie positive">{{detail.score}}</div>
-                                {% elif detail.score > 4 %}
+                                {% elif detail.score >= 3.0 %}
                                 <div class="beescore_w larger no_tbd movie mixed">{{detail.score}}</div>
                                 {% else %}
                                 <div class="beescore_w larger no_tbd movie negative">{{detail.score}}</div>

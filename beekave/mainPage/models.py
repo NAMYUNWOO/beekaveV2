@@ -1,6 +1,5 @@
 from django.db import models
 from detail.models import Movie
-
 # scoreAct
 class Movie_rank_1(models.Model):
     rank = models.IntegerField(unique=True)
