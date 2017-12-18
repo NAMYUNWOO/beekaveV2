@@ -3,6 +3,47 @@
 {% load self_defined_filters %}
 {% block content %}
 <main role="main" style="background-color:#f4f4f4 !important;">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="{% static '/images/main0.png' %}" alt="First slide">
+                      <div class="carousel-caption d-none d-md-block">
+                        <h1>공정한 영화 평점</h1>
+                          <br>
+                        <p>인공지능을 활용한 알바평점&평점테러 필터링</p>
+                      </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="{% static '/images/main1.png' %}" alt="Second slide">
+                      <div class="carousel-caption d-none d-md-block">
+                        <h1>고전부터 최신영화 까지</h1>
+                          <br>
+                        <p>수만가지 다양한 영화들의 평점 제공</p>
+                      </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="{% static '/images/main2.png' %}" alt="Third slide">
+                      <div class="carousel-caption d-none d-md-block">
+                        <h1>국내 최대 영화 리뷰수</h1>
+                          <br>
+                        <p>Nav*, Dau*, Watcha 보다 많은 영화 리뷰수</p>
+                      </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
 
     <div class="container">
         <br><br><br>
@@ -27,28 +68,28 @@
                             </div>
                             <div class="lib-row lib-desc">
 
-                                        <div align="right" style="margin-bottom:3px; color:black;">
-                                            <p class="bold" style="font-size:20px !important; margin-bottom:0px;">총점</p>
-                                            {% if not movie.scorefactor %}
-                                            <a class="bold" style="font-size:11px !important;">평가점수가 없습니다.</a>
-                                            {% else %}
-                                            {% for i in movie.scorefactor|iterInt %}
-                                            <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                            {% endfor %}
-                                            {% for i in movie.scorefactor|iterFloat %}
-                                            <i class="fa fa-star-half fa-lg" aria-hidden="true"  ></i>
-                                            {% endfor %}
-                                            <i class="bold" style="font-size:15px !important;">{{ movie.scorefactor }}</i>
-                                            {% endif %}
-                                            <br>
-                                            <a href="/{{ movie.moviecode }}" style="font-size:10px;">점수더보기</a>
-                                        </div>
+                                <div align="right" style="margin-bottom:3px; color:black;">
+                                    <p class="bold" style="font-size:20px !important; margin-bottom:0px;">총점</p>
+                                    {% if not movie.scorefactor %}
+                                    <a class="bold" style="font-size:11px !important;">평가점수가 없습니다.</a>
+                                    {% else %}
+                                    {% for i in movie.scorefactor|iterInt %}
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    {% endfor %}
+                                    {% for i in movie.scorefactor|iterFloat %}
+                                    <i class="fa fa-star-half fa-lg" aria-hidden="true"  ></i>
+                                    {% endfor %}
+                                    <i class="bold" style="font-size:15px !important;">{{ movie.scorefactor }}</i>
+                                    {% endif %}
+                                    <br>
+                                    <a href="/{{ movie.moviecode }}" style="font-size:10px;">점수더보기</a>
+                                </div>
 
-                                        <hr>
-                                        <p class="lib-content" align="right">{{ movie.opendate|getDT }}</p>
-                                        <p class="lib-content" align="right">{{movie.genre}}</p>
-                                        <p class="lib-content" align="right">{{movie.audit}}</p>
-                                    </div>
+                                <hr>
+                                <p class="lib-content" align="right">{{ movie.opendate|getDT }}</p>
+                                <p class="lib-content" align="right">{{movie.genre}}</p>
+                                <p class="lib-content" align="right">{{movie.audit}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
