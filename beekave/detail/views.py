@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from detail.models import Movie
+from detail.models import Movie,People
 from django.http import HttpResponse
 from detail.forms import movieReviewForm
 from django.utils import timezone
@@ -14,8 +14,8 @@ def detail(request,id):
     youtubeMovieID = youtube_search(movieTitle)
     score_list = [(detail.scoreact,"연기력"),(detail.scorestory,"스토리"),(detail.scoredirector,"감독")
                  ,(detail.scoreost,"OST"),(detail.scorevisual,"영상미"),(detail.scorefresh,"신선도")]
-
-    context = {"detail":detail,"form":form,"youtubeMovieID":youtubeMovieID,"score_list":score_list}
+    peopleList = People.objects.filter(moviecode=detail)
+    context = {"detail":detail,"form":form,"youtubeMovieID":youtubeMovieID,"score_list":score_list,"peopleList":peopleList}
     return render(request,'detail.html',context)
 
 def postReview(request):

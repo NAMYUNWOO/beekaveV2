@@ -42,10 +42,9 @@ class Movie(models.Model):
 class People(models.Model):
     peopleCd = models.IntegerField(primary_key=True)
     peopleNm = models.CharField(max_length=200)
-    peopleNmEn = models.CharField(max_length=200)
+    peopleNmEn = models.CharField(max_length=200,null=True)
     sex = models.BooleanField()
-    repRoleNm = models.CharField(max_length=200)
-    filmos = models.ManyToManyField(Movie, related_name="filmos")
+    moviecode = models.ManyToManyField(Movie, related_name="filmos")
 
     def __str__(self):
         return self.peopleNm

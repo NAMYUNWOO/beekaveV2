@@ -85,13 +85,19 @@
                     </div>
                     <div class="col-xs-12 col-sm-6">
                         <div class="col-xs-12">
-                            <h1 style="color:white;">주요 정보1</h1>
-                            <h1 style="color:white;">주요 정보2</h1>
-                            <h1 style="color:white;">주요 정보3</h1>
-                            <h1 style="color:white;">주요 정보4</h1>
-                            <h1 style="color:white;">주요 정보5</h1>
-                            <h1 style="color:white;">주요 정보6</h1>
-                            <h1 style="color:white;">주요 정보7</h1>
+                            <h2 style="color:white;">{{ detail.genre }}</h2>
+                            <h2 style="color:white;">{{ detail.nation }}</h2>
+                            <h2 style="color:white;">{{ detail.director}} 감독</h2>
+                            <br>
+                            <h4 style="color:white;">
+                                배우:
+                                {% if peopleList %}
+                                {% for people in peopleList %}
+                                <a style="color:white;" href="/people_{{ people.peopleCd }}">&nbsp;{{people.peopleNm}},</a>
+                                {% endfor %}
+                                {% endif %}
+                            </h4>
+
 
                         </div>
                         <br><br>

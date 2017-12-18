@@ -41,7 +41,7 @@ def movielist(request,range,scoretype):
     filterMessage = getword(range,scoreT,year_)
     if range == "alltime" or year_:
         movie_list = Movie.objects.order_by(scoreT).\
-            values("title","thumbnail","genre","opendate","openyear",scorefactor = F(scoreT_raw)).all()
+            values("title","moviecode","thumbnail","genre","opendate","openyear",scorefactor = F(scoreT_raw)).all()
     else:
         dtafter = datetime.datetime.now()-datetime.timedelta(180)
         movie_list = Movie.objects.filter(opendate__gte = dtafter).order_by(scoreT).\
