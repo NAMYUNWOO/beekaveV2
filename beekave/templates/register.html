@@ -3,10 +3,12 @@
 {% load self_defined_filters %}
 {% block content %}
 
-<main role="main">
-    <div class="jumbotron">
+<main role="main" style="background-color:#f4f4f4 !important;">
+    <div class="jumbotron jumboBgImg">
+        <br>
         <div class="container">
-            <h1 class="display-3">Register</h1>
+            <h1 class="display-3" style="color:white;">회원가입</h1>
+            <br><br>
         </div>
     </div>
 
@@ -55,7 +57,7 @@
                     </fieldset>
 
                     <div style="margin-top:20px; margin-bottom:20px;" >
-                        <input class="btn btn-primary btn-lg btn-block" type="submit" style="margin-top: 5px;" value="회원가입">
+                        <input class="btn btn-dark btn-lg btn-block" type="submit" style="margin-top: 5px; color:#ffc107;" value="회원가입">
                     </div>
 
                     <script type="text/javascript">document.getElementById("id_username").focus();</script>

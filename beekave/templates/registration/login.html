@@ -2,11 +2,13 @@
 {% load static from staticfiles %}
 {% load self_defined_filters %}
 {% block content %}
-<main role="main">
+<main role="main"  style="background-color:#f4f4f4 !important;">
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+    <div class="jumbotron jumboBgImg">
+        <br>
         <div class="container">
-            <h1 class="display-3">Login Page</h1>
+            <h1 class="display-3" style="color:white;">로그인</h1>
+            <br><br>
         </div>
     </div>
 
@@ -36,10 +38,10 @@
                     </fieldset>
 
                     <div style="margin-top:20px;">
-                        <input class="btn btn-primary btn-lg btn-block" type="submit" style="margin-top: 5px;" value="로그인">
+                        <input class="btn btn-dark btn-lg btn-block" type="submit" style="margin-top: 5px;color:#ffc107" value="로그인">
                         <input type="hidden" name="next" value="{{ next }}" />
                     </div>
-
+                    <br><br><br>
                     <script type="text/javascript">document.getElementById('id_username').focus();</script>
                 </form>
             </div>

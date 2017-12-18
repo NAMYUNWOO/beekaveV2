@@ -3,9 +3,9 @@
 {% load self_defined_filters %}
 {% block content %}
 {% load widget_tweaks %}
-<main role="main">
+<main role="main" style="background-color:#f4f4f4 !important;">
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron" style="color:white;background-color:#212529!important;">
+    <div class="jumbotron jumboBgImg" style="color:white;background-color:#212529!important;">
         <h3 align="center">{{ filterMessage }}</h3>
         <br>
         <div class="container">
@@ -55,61 +55,54 @@
     </div>
     <div class="container">
         <div class="infinite-container">
-            {% for movie in movies %}
             <div class="infinite-item">
                 <div class="row justify-content-md-center">
-                    <div class="col-xs-12 d-none d-sm-block">
-                        <div class="beeCard" style="margin-bottom:50px">
-                            <div class="cover" style="background-image: url({{ movie.thumbnail }})">
-                            </div>
-                            <div class="info">
-                                <a href="#" class="beedetail">
-                                    <i class="fa fa-film" aria-hidden="true" style="font-size:20px !important;"></i>
-                                    <font>Details</font>
-                                </a>
-                                <div class="content">
-                                    <table width="100%" cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <td align="right" valign="middle" style="color:black;"><h5>{{ movie.title }}</h5>
-                                                <a style="font-size:15px;">{{ movie.genre }}</a><br>
-                                                <a style="font-size:15px;">{{ movie.opendate|getDT }}</a><br>
-                                                <a style="font-size:15px;">{{ movie.nation }}</a>
-                                            </td>
-                                            <td width="20" rowspan="2" class="border-right"> </td>
-                                            <td width="140" rowspan="2" align="center" valign="middle">
-                                                <h1>{{ movie.score }}</h1>
-                                                <span class="stars">
-                                                    <em style="width: {{ movie.score|getPercentage }}"></em>
-                                                </span><br/>
-                                                <small></small>
-                                            </td>
-                                        </tr>
-                                    </table>
+                    {% for movie in movies %}
+                    <div class="col-sm-5" data-category="ui" style="margin:30px;">
+                        <div class="lib-panel">
+                            <div class="row box-shadow">
+                                <div class="col-xs-6 col-md-6">
+                                    <a href="/{{movie.moviecode}}">
+                                        <img class="lib-img" src="{{ movie.thumbnail }}">
+                                    </a>
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <div class="lib-row lib-header" align="right">
+                                        <a class="bold" href="/{{movie.moviecode}}" style="color:black;">{{ movie.title }}</a>
+                                        <hr>
+                                    </div>
+                                    <div class="lib-row lib-desc">
+
+                                        <div align="right" style="margin-bottom:3px; color:black;">
+                                            <p class="bold" style="font-size:20px !important; margin-bottom:0px;">{{ scoreHan }}</p>
+                                            {% if not movie.scorefactor %}
+                                            <a class="bold" style="font-size:11px !important;">평가점수가 없습니다.</a>
+                                            {% else %}
+                                            {% for i in movie.scorefactor|iterInt %}
+                                            <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                            {% endfor %}
+                                            {% for i in movie.scorefactor|iterFloat %}
+                                            <i class="fa fa-star-half fa-lg" aria-hidden="true"  ></i>
+                                            {% endfor %}
+                                            <i class="bold" style="font-size:15px !important;">{{ movie.scorefactor }}</i>
+                                            {% endif %}
+                                            <br>
+                                            <a href="/{{ movie.moviecode }}" style="font-size:10px;">점수더보기</a>
+                                        </div>
+
+                                        <hr>
+                                        <p class="lib-content" align="right">{{ movie.opendate|getDT }}</p>
+                                        <p class="lib-content" align="right">{{movie.genre}}</p>
+                                        <p class="lib-content" align="right">{{movie.audit}}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 d-block d-sm-none">
-                        <div class="card" style="margin-bottom:50px; box-shadow: 0 2px 15px rgba(0, 0, 0, .5);">
-                            <img class="card-img-top" src="{{ movie.thumbnail }}" alt="Card image cap">
-                            <div class="card-block">
-                                <h4 class="card-title">{{ movie.title }}</h4>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
-                            </ul>
-                            <div class="card-block">
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
+
         </div>
 
 
