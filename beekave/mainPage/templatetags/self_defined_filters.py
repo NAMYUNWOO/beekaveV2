@@ -12,6 +12,8 @@ def getPercentage(score):
 
 @register.filter(name='getDT')
 def getDT(dt):
+    if dt == None:
+        return "-"
     return str(dt.year)+"-"+str(dt.month)+"-"+ str(dt.day)
 
 @register.filter(name='scoreSelect')
