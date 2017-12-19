@@ -22,7 +22,7 @@ def search(request,searchQuery):
     #apikey = '10ca0c0de1ff76a9a4fbb08ba91e9ae4'
     #searchPeopleurl = 'https://api.themoviedb.org/3/search/person?api_key=%s&language=en-US&include_adult=true&query=%s'
     #searchPeopleurl%(apikey,searchQuery)
-    peopleResult = People.objects.filter(peopleNm__icontains = searchQuery)
+    peopleResult = People.objects.filter(Q(peopleNm__icontains = searchQuery)|Q(peopleNmEn__icontains = searchQuery))
     peopleMovies = [person.moviecode.order_by('-opendate') for person in peopleResult]
     peopleResult_ = sorted(zip(peopleResult, peopleMovies),key=lambda x:len(x[1]),reverse=True)
     peopleResultCnt = peopleResult.count()
