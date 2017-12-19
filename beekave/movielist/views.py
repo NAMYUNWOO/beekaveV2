@@ -6,6 +6,8 @@ from .filter import MovieFilter
 import datetime
 import re
 
+####  리팩토링해야함 ######
+
 def getword(range,scoretype,openyear = 0):
 
     score_word = {"-score": "총점이 높은 영화들", "-scoreact": "연기 점수가 높은 영화들", "-scorestory": "스토리 점수가 높은 영화들",
@@ -60,8 +62,6 @@ def movielist(request,range,scoretype):
                 "scorevisual": "영상미 점수", "scorefresh": "신선도 점수"}
     scoreHan = scoreDic[scoreT_raw]
     context ={
-        "range":range,
-        "scoretype":scoretype,
         "form":movie_filter.form,
         "movies":movies,
         "selected":scoreT,

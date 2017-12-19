@@ -7,6 +7,7 @@ from reviewPage.views import review_like,review_dislike,reviews
 from detail.views import postReview,detail
 from aboutus.views import aboutus
 from movielist.views import movielist
+from people.views import peopleFilmo
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,5 +25,6 @@ urlpatterns = [
     url(r'^contactus/$', aboutus, name='contactus'),
     url(r'^search_(?P<myfilter>.*)/$', search, name='search'),
     url(r'^mvlist_(?P<range>\w+)_(?P<scoretype>[-]{0,1}\w+)/$', movielist, name='movielist'),
+    url(r'^people_(?P<peopleCd>\d+)/$', peopleFilmo, name='peopleFilmo'),
 
 ]
