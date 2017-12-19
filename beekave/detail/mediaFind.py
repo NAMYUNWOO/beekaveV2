@@ -28,17 +28,15 @@ def getNaverSearch(query):
 
 
 
-
-
-
-def youtube_search(title):
+def youtube_search(title,titleen):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                     developerKey=YOUTUBE_DEVELOPER_KEY)
-
-    # Call the search.list method to retrieve results matching the specified
-    # query term.
+    if titleen:
+       searchquery  =title + " 예고편 " + titleen + " trailer"
+    else:
+        searchquery = title + " 예고편 trailer"
     search_response = youtube.search().list(
-        q=title+" trailer",
+        q=searchquery,
         part="id,snippet",
         maxResults="5"
     ).execute()

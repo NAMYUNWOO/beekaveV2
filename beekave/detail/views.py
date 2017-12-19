@@ -11,7 +11,7 @@ def detail(request,id):
     detail = Movie.objects.get(pk=id)
     form = movieReviewForm
     movieTitle = detail.title
-    youtubeMovieID = youtube_search(movieTitle)
+    youtubeMovieID = youtube_search(movieTitle,detail.titleen)
     score_list = [(detail.scoreact,"연기력"),(detail.scorestory,"스토리"),(detail.scoredirector,"감독")
                  ,(detail.scoreost,"OST"),(detail.scorevisual,"영상미"),(detail.scorefresh,"신선도")]
     peopleList = People.objects.filter(moviecode=detail)

@@ -47,7 +47,7 @@
                     {% if review.score|getDecScore == 0 %}
                 <span class="fa fa-star-o" aria-hidden="true"></span>
                     {% endif %}
-                <span class="bold">&nbsp {{ review.score|getDecScore }}</span>
+                <span class="bold">&nbsp {{ review.score|getDecScore }}점</span>
             </h4>
             <p class="card-text">{{review.comment}}</p>
                 <div class="col-xs-12 nopadding" align="left">
