@@ -2,19 +2,115 @@
 {% load static from staticfiles %}
 {% load self_defined_filters %}
 {% block content %}
-<main role="main">
+<main role="main" style="background-color:#f4f4f4 !important;">
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <div class="container">
-            <h1 class="display-3">search result</h1>
+    <div class="jumbotron jumboBgImg">
+        <br>
+        <div class="container" style="color:white">
+            <h2>"{{ searchQuery }}"에 대한 검색 결과</h2>
+            <br>
+            <h3>&nbsp; 인물 {{ peopleResultCnt }}건,&nbsp;&nbsp;영화 {{ movieResultCnt }}건 검색</h3>
+            <br>
         </div>
     </div>
 
+    <div class="container">
+        <div class="infinite-container">
+            <div class="infinite-item">
+                <div class="row justify-content-md-center">
+                    {% for person,movies in peopleResult %}
+                    <div class="col-sm-5" data-category="ui" style="margin:30px;">
+                        <div class="lib-panel">
+                            <div class="row box-shadow">
+                                <div class="col-xs-6 col-md-6">
+                                    <a href="/people_{{person.peopleCd}}">
+                                        <img class="lib-img" src="{% static '/images/anony.jpg' %}">
+                                    </a>
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <div class="lib-row lib-header" align="right">
+                                        <a class="bold" href="/people_{{person.peopleCd}}" style="color:black;">{{ person.peopleNm }}</a>
+                                        <hr>
+                                    </div>
+                                    <div class="lib-row lib-desc">
+                                        {% for movie in movies|slice:":5" %}
+                                            <a class="lib-content" align="right" href="/{{ movie.moviecode }}">
+                                                <p style="color:black; margin-bottom:12px;">{{ movie.title }}&nbsp;({{ movie.openyear }})</p>
+                                            </a>
+                                        {% endfor %}
+                                        <a align="right" href="/people_{{person.peopleCd}}">
+                                            <p>더보기..</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% for movie in movieResult %}
+                    <div class="col-sm-5" data-category="ui" style="margin:30px;">
+                        <div class="lib-panel">
+                            <div class="row box-shadow">
+                                <div class="col-xs-6 col-md-6">
+                                    <a href="/{{movie.moviecode}}">
+                                        <img class="lib-img" src="{{ movie.thumbnail }}">
+                                    </a>
+                                </div>
+                                <div class="col-xs-6 col-md-6">
+                                    <div class="lib-row lib-header" align="right">
+                                        <a class="bold" href="/{{movie.moviecode}}" style="color:black;">{{ movie.title }}</a>
+                                        <hr>
+                                    </div>
+                                    <div class="lib-row lib-desc">
 
-  <div class="container" align="center">
-    <div class="row">
-        <p>{{ searchResult }}</p>
+                                        <div align="right" style="margin-bottom:3px; color:black;">
+                                            <p class="bold" style="font-size:20px !important; margin-bottom:0px;">{{ scoreHan }}</p>
+                                            {% if not movie.scorefactor %}
+                                            <a class="bold" style="font-size:11px !important;">평가점수가 없습니다.</a>
+                                            {% else %}
+                                            {% for i in movie.scorefactor|iterInt %}
+                                            <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                            {% endfor %}
+                                            {% for i in movie.scorefactor|iterFloat %}
+                                            <i class="fa fa-star-half fa-lg" aria-hidden="true"  ></i>
+                                            {% endfor %}
+                                            <i class="bold" style="font-size:15px !important;">{{ movie.scorefactor }}</i>
+                                            {% endif %}
+                                            <br>
+                                            <a href="/{{ movie.moviecode }}" style="font-size:10px;">점수더보기</a>
+                                        </div>
+
+                                        <hr>
+                                        <p class="lib-content" align="right">{{ movie.opendate|getDT }}</p>
+                                        <p class="lib-content" align="right">{{movie.genre}}</p>
+                                        <p class="lib-content" align="right">{{movie.audit}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            {% if movies.has_next %}
+            <a class="infinite-more-link" href="{{ request.get_full_path|andorquestion }}page={{ movies.next_page_number }}">More</a>
+            {% endif %}
+        </div>
     </div>
-  </div>
+    <br><br><br><br><br><br><br><br>
 </main>
+<script>
+    $("#id_score").val( '{{ selected }}' );
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+ </script>
 {% endblock %}

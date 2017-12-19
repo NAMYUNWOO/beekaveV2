@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from detail.models import Movie
-from django.db.models import F
+from django.db.models import F,Q
 from .filter import MovieFilter
 import datetime
 import re
@@ -41,12 +41,13 @@ def movielist(request,range,scoretype):
     except:
         pass
     filterMessage = getword(range,scoreT,year_)
+    kwarg = {scoreT_raw+"__isnull":False}
     if range == "alltime" or year_:
-        movie_list = Movie.objects.order_by(scoreT).\
+        movie_list = Movie.objects.filter(**kwarg).order_by(scoreT).\
             values("title","moviecode","thumbnail","genre","opendate","openyear",scorefactor = F(scoreT_raw)).all()
     else:
         dtafter = datetime.datetime.now()-datetime.timedelta(180)
-        movie_list = Movie.objects.filter(opendate__gte = dtafter).order_by(scoreT).\
+        movie_list = Movie.objects.filter(Q(opendate__gte = dtafter)&Q(**kwarg)).order_by(scoreT).\
                     values("title","moviecode","thumbnail","genre","opendate","openyear",scorefactor = F(scoreT_raw)).all()
 
     movie_filter = MovieFilter(request.GET, queryset=movie_list)

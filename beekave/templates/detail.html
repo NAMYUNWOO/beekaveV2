@@ -88,16 +88,16 @@
                         <br>
                     </div>
                     <div class="col-xs-12 col-sm-6">
-                        <div class="col-xs-12">
-                            <h2 style="color:white;">{{ detail.genre }}</h2>
-                            <h2 style="color:white;">{{ detail.nation }}</h2>
-                            <h2 style="color:white;">{{ detail.director}} 감독</h2>
+                        <div class="col-xs-12" style="color:white;">
+                            <h2>{{ detail.genre }}</h2>
+                            <h2>{{ detail.nation }}</h2>
+                            <h2>{{ detail.director}} 감독</h2>
                             <br>
-                            <h4 style="color:white;">
-                                배우:
+                            <h4 style="margin-bottom:10px;">배우</h4>
+                            <h4>
                                 {% if peopleList %}
                                 {% for people in peopleList %}
-                                <a style="color:white;" href="/people_{{ people.peopleCd }}">&nbsp;{{people.peopleNm}},</a>
+                                <a style="color:white;" href="/people_{{ people.peopleCd }}">{{people.peopleNm}},</a>
                                 {% endfor %}
                                 {% endif %}
                             </h4>
