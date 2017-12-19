@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse_lazy
 from beekave.forms import UserCreationForm
 from detail.models import People,Movie
 from django.db.models import Q
-import requests,json
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class UserCreateView(CreateView):
     template_name = 'register.html'
@@ -18,6 +18,7 @@ class UserCreateDoneTV(TemplateView):
 
 
 def search(request,searchQuery):
+    page = request.GET.get('page', 1)
     #apikey = '10ca0c0de1ff76a9a4fbb08ba91e9ae4'
     #searchPeopleurl = 'https://api.themoviedb.org/3/search/person?api_key=%s&language=en-US&include_adult=true&query=%s'
     #searchPeopleurl%(apikey,searchQuery)
@@ -27,12 +28,19 @@ def search(request,searchQuery):
     peopleResultCnt = peopleResult.count()
     movieResult = Movie.objects.filter(Q(title__icontains = searchQuery)|Q(titleen__icontains = searchQuery)).all()
     movieResultCnt = movieResult.count()
+    paginator = Paginator(movieResult, 20)
+    try:
+        movies = paginator.page(page)
+    except PageNotAnInteger:
+        movies = paginator.page(1)
+    except EmptyPage:
+        movies = paginator.page(paginator.num_pages)
     context = {
         "searchQuery":searchQuery,
         "movieResultCnt":movieResultCnt,
         "peopleResultCnt":peopleResultCnt,
         "peopleResult":peopleResult_,
-        "movieResult":movieResult,
+        "movies":movies,
 
     }
     return render(request,"searchResult.html",context)
