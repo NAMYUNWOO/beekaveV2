@@ -23,7 +23,7 @@
                       <div class="carousel-caption d-none d-md-block">
                         <h1>고전부터 최신영화 까지</h1>
                           <br>
-                        <p>수만가지 다양한 영화들의 평점 제공</p>
+                        <p>수천가지 다양한 영화들의 평점 제공</p>
                       </div>
                 </div>
                 <div class="carousel-item">
@@ -140,9 +140,9 @@
 
                         <td class="score_col">
                             <a class="beescore_anchor" href="/{{movie.moviecode}}">
-                                {% if movie.scorefactor >= 7.0 %}
+                                {% if movie.scorefactor >= 70 %}
                                 <span class="beescore_w medium movie positive">{{movie.scorefactor}}</span>
-                                {% elif movie.scorefactor >= 3.0 %}
+                                {% elif movie.scorefactor >= 30 %}
                                 <span class="beescore_w medium movie mixed">{{movie.scorefactor}}</span>
                                 {% else %}
                                 <span class="beescore_w medium movie negative">{{movie.scorefactor}}</span>
@@ -165,9 +165,9 @@
                         </td>
                         <td class="score_col">
                             <a class="beescore_anchor" href="/{{movie.moviecode}}">
-                                {% if movie.scorefactor >= 7.0 %}
+                                {% if movie.scorefactor >= 70 %}
                                 <span class="beescore_w small movie positive">{{movie.scorefactor}}</span>
-                                {% elif movie.scorefactor >= 3.0 %}
+                                {% elif movie.scorefactor >= 30 %}
                                 <span class="beescore_w small movie mixed">{{movie.scorefactor}}</span>
                                 {% else %}
                                 <span class="beescore_w small movie negative">{{movie.scorefactor}}</span>

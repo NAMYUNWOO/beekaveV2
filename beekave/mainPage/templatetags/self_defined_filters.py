@@ -56,15 +56,20 @@ def parentsUrls(myUrl):
 
 @register.filter(name='iterInt')
 def iterInt(num):
-    return range(int(num/2))
+    if num == None:
+        return range(0)
+    return range(int(num/2)//10)
 
 
 @register.filter(name='iterFloat')
 def iterFloat(num):
-    if num/2.0-int(num/2) == 0.0:
+    if num == None:
         return range(0)
-    else:
+    halfNum = int(num / 2)
+    if halfNum%10 >= 5:
         return range(1)
+    else:
+        return range(0)
 
 @register.filter(name='getDecScore')
 def getDecScore(num):
