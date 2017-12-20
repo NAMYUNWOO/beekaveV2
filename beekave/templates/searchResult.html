@@ -53,7 +53,7 @@
                             <div class="row box-shadow">
                                 <div class="col-xs-6 col-md-6">
                                     <a href="/{{movie.moviecode}}">
-                                        <img class="lib-img" src="{{ movie.thumbnail }}">
+                                        <img class="lib-img" src="{{ movie.thumbnailArr.0 }}">
                                     </a>
                                 </div>
                                 <div class="col-xs-6 col-md-6">
@@ -65,16 +65,16 @@
 
                                         <div align="right" style="margin-bottom:3px; color:black;">
                                             <p class="bold" style="font-size:20px !important; margin-bottom:0px;">{{ scoreHan }}</p>
-                                            {% if not movie.scorefactor %}
+                                            {% if not movie.score %}
                                             <a class="bold" style="font-size:11px !important;">평가점수가 없습니다.</a>
                                             {% else %}
-                                            {% for i in movie.scorefactor|iterInt %}
+                                            {% for i in movie.score|iterInt %}
                                             <i class="fa fa-star fa-lg" aria-hidden="true"></i>
                                             {% endfor %}
-                                            {% for i in movie.scorefactor|iterFloat %}
+                                            {% for i in movie.score|iterFloat %}
                                             <i class="fa fa-star-half fa-lg" aria-hidden="true"  ></i>
                                             {% endfor %}
-                                            <i class="bold" style="font-size:15px !important;">{{ movie.scorefactor }}</i>
+                                            <i class="bold" style="font-size:15px !important;">{{ movie.score }}</i>
                                             {% endif %}
                                             <br>
                                             <a href="/{{ movie.moviecode }}" style="font-size:10px;">점수더보기</a>

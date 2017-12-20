@@ -43,12 +43,11 @@ def movielist(request,range,scoretype):
     filterMessage = getword(range,scoreT,year_)
     kwarg = {scoreT_raw+"__isnull":False}
     if range == "alltime" or year_:
-        movie_list = Movie.objects.filter(**kwarg).order_by(scoreT).\
-            values("title","moviecode","thumbnail","genre","opendate","openyear",scorefactor = F(scoreT_raw)).all()
+        movie_list = Movie.objects.filter(**kwarg).order_by(scoreT).annotate(scorefactor = F(scoreT_raw)).all()
     else:
         dtafter = datetime.datetime.now()-datetime.timedelta(180)
         movie_list = Movie.objects.filter(Q(opendate__gte = dtafter)&Q(**kwarg)).order_by(scoreT).\
-                    values("title","moviecode","thumbnail","genre","opendate","openyear",scorefactor = F(scoreT_raw)).all()
+            annotate(scorefactor = F(scoreT_raw)).all()
 
     movie_filter = MovieFilter(request.GET, queryset=movie_list)
     paginator = Paginator(movie_filter.qs, 20)

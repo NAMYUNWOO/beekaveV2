@@ -6,16 +6,17 @@
     <div class="row" style="background-color:black;padding-top: 0px;">
         <div class="col-xs-12 col-sm-3">
             <div id="carouselExampleControls" class="col-xs-12 carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
+                <div class="carousel-inner" style="height:500px !important">
                     <div class="carousel-item active">
-                        <img class="img-fluid nopadding" src="{{detail.thumbnail}}"  alt="First slide">
+                        <img class="img-fluid nopadding" src="{{detail.thumbnailArr.0}}">
                     </div>
-                    <div class="carousel-item">
-                        <img class="img-fluid nopadding" src="{{detail.thumbnail}}" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="img-fluid nopadding" src="{{detail.thumbnail}}" alt="Third slide">
-                    </div>
+                    {% if detail.thumbnailArr|length > 1 %}
+                        {% for thumbnail in detail.thumbnailArr|slice:'1:' %}
+                        <div class="carousel-item">
+                            <img class="img-fluid nopadding" src="{{thumbnail}}">
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -88,10 +89,12 @@
                         <br>
                     </div>
                     <div class="col-xs-12 col-sm-6">
-                        <div class="col-xs-12" style="color:white;">
+                        <div class="col-xs-12" style="color:white; height:400px !important;">
                             <h2>{{ detail.genre }}</h2>
                             <h2>{{ detail.nation }}</h2>
-                            <h2>{{ detail.director}} 감독</h2>
+                            <h2>{{ detail.audit }}</h2>
+                            <h2>{{ detail.showtime }}&nbsp;분</h2>
+                            <h2>{{ detail.director}}&nbsp;감독</h2>
                             <br>
                             <h4 style="margin-bottom:10px;">배우</h4>
                             <h4>
@@ -101,7 +104,6 @@
                                 {% endfor %}
                                 {% endif %}
                             </h4>
-
 
                         </div>
                         <br><br>

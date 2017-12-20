@@ -23,11 +23,9 @@ def peopleFilmo(request,peopleCd):
     filterMessage = person.peopleNm +"의 영화들"
     mvs = person.moviecode.distinct()
     if scoreT == '':
-        movie_list =mvs.order_by("-opendate").\
-            values("title","moviecode","thumbnail","genre","opendate","openyear",scorefactor = F(scoreT_raw)).all()
+        movie_list =mvs.order_by("-opendate").annotate(scorefactor = F(scoreT_raw)).all()
     else:
-        movie_list =mvs.order_by(scoreT).\
-            values("title","moviecode","thumbnail","genre","opendate","openyear",scorefactor = F(scoreT_raw)).all()
+        movie_list =mvs.order_by(scoreT).annotate(scorefactor = F(scoreT_raw)).all()
 
     movie_filter = MovieFilter(request.GET, queryset=movie_list)
     paginator = Paginator(movie_filter.qs, 20)

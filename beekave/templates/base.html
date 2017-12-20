@@ -47,14 +47,13 @@ body {
         </ul>
         <ul class="navbar-nav ml-auto">
             {% if user.is_active %}
-            <li><a class="nav-link">Welcome, <strong>{% firstof user.get_short_name user.get_username %}</strong> </a></li>
-            <li><a class="nav-link" href="{% url 'password_change' %}">Change Password</a> </li>
-            <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+            <li><a class="nav-link">어서오세요, <strong>{% firstof user.get_short_name user.get_username %}&nbsp;님</strong> </a></li>
+            <li><a class="nav-link" href="{% url 'password_change' %}">비밀번호 변경</a> </li>
+            <li><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
 
             {% else %}
-            <li><a class="nav-link">Welcome, guest </a></li>
-            <li><a class="nav-link" href="{% url 'login' %}">Login</a> </li>
-            <li><a class="nav-link right" href="{% url 'register' %}">Register</a></li>
+            <li><a class="nav-link" href="{% url 'login' %}">로그인</a> </li>
+            <li><a class="nav-link right" href="{% url 'register' %}">회원가입</a></li>
             {% endif %}
             &nbsp;&nbsp;&nbsp;&nbsp;
             <form class="form-inline my-2 my-lg-0" type="get" action="/">

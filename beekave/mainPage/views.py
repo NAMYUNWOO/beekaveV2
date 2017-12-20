@@ -29,8 +29,10 @@ class mainPage(View):
     def getParentsVal(self,modelList,nameList):
         dtafter = datetime.datetime.now() - datetime.timedelta(days=100)
         for scoreName, model in zip(nameList,modelList):
-            targetModel = model.filter(opendate__gte = dtafter).values("moviecode","title","thumbnail","audit",'genre',"opendate",scorefactor = F(scoreName))
-            yield list(targetModel.order_by('-scorefactor'))[:10]
+            targetModel = model.filter(opendate__gte = dtafter)
+            modelVals = targetModel.annotate(scorefactor = F(scoreName))
+            yield modelVals.order_by('-scorefactor')
+
     def getContext(self):
         movieFactor = ["종점","연기","스토리","감독","OST","영상미","신선도"]
         #sorted(list(movieFactor,key=lambda x: x.scoreact, reverse=True)[:10]
@@ -46,6 +48,8 @@ class mainPage(View):
         factorSortedList = list(self.getParentsVal(scoreList,nameList))
 
         top10_movie_mat = [(movieFactor[i],factorSortedList[i]) for i in range(7)]
-        scoreallTop10 = top10_movie_mat[0][1][:4]
+        scoreallTop10 = top10_movie_mat[0][1]
+        #thumbnail = self.gethumnails([mv['moviecode'] for mv in scoreallTop10])
+        #print(thumbnail)
         context = {'top10_movie_mat': top10_movie_mat[1:], "scoreallTop10":scoreallTop10}
         return context
